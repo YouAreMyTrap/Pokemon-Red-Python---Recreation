@@ -1,4 +1,4 @@
 from SQLCall_Log import *
 
 SqlBase = SQL()
-print("qasd")
+SqlBase.ConnectUser("User2", "Ass2")

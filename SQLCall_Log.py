@@ -2,12 +2,12 @@ import sqlite3
 import hashlib
 class SQL:
     def __init__(self):
-        self.UserLogBD = "./chinook.db"
+        self.UserLogBD = r"C:\Users\Pink\Documents\Pokemon-Red-Python---Recreation/chinook.db"
 
     def ConnectUser(self, name, passwd): 
         conn = sqlite3.connect(self.UserLogBD)
         c = conn.cursor()
-        c.execute("SELECT * FROM Users") 
+        c.execute("SELECT * FROM Login ") 
         print(c.fetchone())
         conn.close()
 
