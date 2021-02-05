@@ -1,4 +1,4 @@
-from SQLCall_Log import *
+from SQLCall import *
 
 print("Exist User: ", SQL().ConnectUser("user12", "0"))
 SQL().NewUser("user12", "0")
