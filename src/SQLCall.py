@@ -4,7 +4,11 @@ import os
 
 class SQL:
     def __init__(self):
-        self.UserLogBD = os.path.dirname(os.path.realpath(__file__)) + "\chinook.db"
+        if os.name == "nt":     # Windows
+            slash = "\\"
+        else:                   # Unix
+            slash = "/"
+        self.UserLogBD = os.path.dirname(os.path.realpath(__file__)) + slash + "chinook.db"
 
     def ConnectUser(self, name, passwd): 
         """Set name and password, if this correct return True or else return False"""
