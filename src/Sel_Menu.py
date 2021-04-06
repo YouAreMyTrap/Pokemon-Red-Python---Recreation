@@ -10,25 +10,34 @@ class Select_Menu:
         self.Menu_Sel = 1
 
 
-
-    def KeyBind(self): #Continuo el keyimput solucionar
-        pressed_keys = pygame.event.wait()
-        if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
-            self.Menu_Loaded = False if self.Menu_Loaded else True
-        
-        if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_UP):
-            self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
-        if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_DOWN):
-            self.Menu_Sel += 1 if not self.Menu_Sel == 7 else 0
-
-
+    def MenuLoad(self):
+        #print(self.Menu_Loaded)
         if self.Menu_Loaded: self.imprimir()
+        self.Menu_Loaded = False if self.Menu_Loaded else True
+        
+        
+    def MenuDown(self):
+        self.Menu_Sel += 1 if not self.Menu_Sel == 7 else 0
+    def MenuUP(self):
+        self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
+   # def KeyBind(self): #Continuo el keyimput solucionar
+        #pressed_keys = pygame.event.wait()
+        #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
+           # self.Menu_Loaded = False if self.Menu_Loaded else True
+        
+        #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_UP):
+         #   self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
+       
+
+
+        #if self.Menu_Loaded: self.imprimir()
         
         #print(self.Menu_Sel)
         #if(event.key == pygame.K_o):
         #    print("Press o")
     
     def imprimir(self):
+        print("Asd")
         arrowpos = {
             1: 15,
             2: 45,
