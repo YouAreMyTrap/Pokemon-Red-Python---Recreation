@@ -68,7 +68,7 @@ class Pokemon_Player:
             1: ["MissingMo.1", 10],
             2: ["MissingMo.2", 10],
             3: ["MissingMo.3", 10],
-            4: ["MissingMo.4", 10],
+            4: ["MissingMo.4", 10]
         }
 
     def GetHp(self): #Haha Mateh
