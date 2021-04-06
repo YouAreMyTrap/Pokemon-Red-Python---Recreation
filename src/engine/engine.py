@@ -16,7 +16,9 @@ class Game:
 
     def load_data(self):
         parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+        img_folder = os.path.join(parentDirectory, 'sprite')
         self.map = Map(os.path.join(parentDirectory, 'maps/map.txt'))
+        self.player_img = pg.image.load(os.path.join(img_folder, PLAYER_SPRITE)).convert_alpha()
 
 
     def new(self):
@@ -28,6 +30,7 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == "1":
                     Wall(self, col, row)
+        self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -45,6 +48,7 @@ class Game:
     def update(self):
         # update portion of the game loop
         self.all_sprites.update()
+        self.camera.update(self.player)
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -55,7 +59,8 @@ class Game:
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.draw_grid()
-        self.all_sprites.draw(self.screen)
+        for sprite  in self.all_sprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
         pg.display.flip()
 
     def events(self):
