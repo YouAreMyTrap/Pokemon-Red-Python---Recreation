@@ -11,15 +11,32 @@ class Select_Menu:
 
 
     def MenuLoad(self):
+        """Show/UnShow Menu"""
         #print(self.Menu_Loaded)
         if self.Menu_Loaded: self.imprimir()
         self.Menu_Loaded = False if self.Menu_Loaded else True
         
         
     def MenuDown(self):
+        """Move Arrow to DOWN"""
         self.Menu_Sel += 1 if not self.Menu_Sel == 7 else 0
     def MenuUP(self):
+        """Move Arrow to UP"""
         self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
+
+    def Sel_Menu(self):
+        """Load menu selection"""
+        MenuInput = {
+            1: "Pokedex",
+            2: "POKéMON",
+            3: "BAG",
+            4: "TRAINER",
+            5: "SAVE",
+            6: "OPTIONS",
+            7: "EXIT"
+            }
+
+        print(MenuInput[self.Menu_Sel])
    # def KeyBind(self): #Continuo el keyimput solucionar
         #pressed_keys = pygame.event.wait()
         #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
