@@ -92,7 +92,7 @@ while running:
     # Placeholder player
     circle = pygame.draw.circle(screen, (0, 0, 255), (240, 160), 10)
            #Press menu
-   # Menu.KeyBind()  #Si se añade el menu no se puede mover
+    Menu.KeyBind()  #Si se añade el menu no se puede mover
     # Flip the display
     pygame.display.flip()
 
