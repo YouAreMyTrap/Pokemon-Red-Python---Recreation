@@ -19,7 +19,7 @@ clock = pygame.time.Clock()
 # Img Pallet Town
 
 #Load menu
-Menu = Battle(screen, RESIZE)
+Menu = Select_Menu(screen, RESIZE)
 
 
 pallet_town = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\Levels\pallet_town.png')    # 384 x 365
