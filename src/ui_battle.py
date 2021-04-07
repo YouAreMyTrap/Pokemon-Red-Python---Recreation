@@ -46,13 +46,16 @@ class Battle:
         background_resized = pygame.transform.scale(background, (240 * self.RESIZE, 160 * self.RESIZE))
 
 
+        txt_ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/ui_0.png')    # 240 x 160
+        txt_ui_resized = pygame.transform.scale(txt_ui, (240 * self.RESIZE, 160 * self.RESIZE))
 
-        ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/ui_0.png')    # 240 x 160
+        ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/txt_ui_0.png')    # 240 x 160
         ui_resized = pygame.transform.scale(ui, (240 * self.RESIZE, 160 * self.RESIZE))
 
  
         self.screen.blit(background_resized, background_resized.get_rect())
         self.screen.blit(ui_resized, ui_resized.get_rect())
+        self.screen.blit(txt_ui_resized, ui_resized.get_rect())
 
         #Imprime el texto
        # pygame.font.init()
