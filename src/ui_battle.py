@@ -45,17 +45,35 @@ class Battle:
         background = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/b_0.png")    # 384 x 365
         background_resized = pygame.transform.scale(background, (240 * self.RESIZE, 160 * self.RESIZE))
 
-
+        #Donde ira el texto
         txt_ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/ui_0.png')    # 240 x 160
         txt_ui_resized = pygame.transform.scale(txt_ui, (240 * self.RESIZE, 160 * self.RESIZE))
-
+        
+        #Donde el jugador hace las acciones - Menu - Battle
         ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/txt_ui_0.png')    # 240 x 160
         ui_resized = pygame.transform.scale(ui, (240 * self.RESIZE, 160 * self.RESIZE))
 
- 
+        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\Arrow.png')    # 6 x 10
+        arrow_resized = pygame.transform.scale(arrow, (6 * self.RESIZE, 10 * self.RESIZE))
+
+        #####Info pokemons#####
+
+        #Enemy
+        ienemy = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/ie_0.png")    # 384 x 365
+        ienemy_resized = pygame.transform.scale(ienemy, (240 * self.RESIZE, 160 * self.RESIZE))
+
+        #Player
+        iplayer = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/ip_0.png")    # 384 x 365
+        iplayer_resized = pygame.transform.scale(iplayer, (240 * self.RESIZE, 160 * self.RESIZE))
+
         self.screen.blit(background_resized, background_resized.get_rect())
         self.screen.blit(ui_resized, ui_resized.get_rect())
         self.screen.blit(txt_ui_resized, ui_resized.get_rect())
+
+
+        self.screen.blit(ienemy_resized, ui_resized.get_rect())
+        self.screen.blit(iplayer_resized, ui_resized.get_rect())
+        self.screen.blit(arrow_resized, ui_resized.get_rect())
 
         #Imprime el texto
        # pygame.font.init()
