@@ -1,6 +1,7 @@
 import pygame
 import os
 from Sel_Menu import *
+from ui_battle import *
 pygame.init()
 
 
@@ -18,7 +19,7 @@ clock = pygame.time.Clock()
 # Img Pallet Town
 
 #Load menu
-Menu = Select_Menu(screen, RESIZE)
+Menu = Battle(screen, RESIZE)
 
 
 pallet_town = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\Levels\pallet_town.png')    # 384 x 365
@@ -65,7 +66,7 @@ while running:
             posX -= 5  # Move map left = player moves right
             key_right = True
             #print('right')
-
+        
         # Detect Key release
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_DOWN:
@@ -79,7 +80,7 @@ while running:
         if event.key == pygame.K_RIGHT:
             key_right = False
             #print("right" + str(key_right))
-
+        
 
 
 
@@ -92,7 +93,8 @@ while running:
     # Placeholder player
     circle = pygame.draw.circle(screen, (0, 0, 255), (240, 160), 10)
            #Press menu
-    Menu.KeyBind()  #Si se añade el menu no se puede mover
+   # Menu.KeyBind()  #Si se añade el menu no se puede mover
+    Menu.imprimir()
     # Flip the display
     pygame.display.flip()
 

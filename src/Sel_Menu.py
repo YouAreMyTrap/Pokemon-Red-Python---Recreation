@@ -37,24 +37,23 @@ class Select_Menu:
             }
 
         print(MenuInput[self.Menu_Sel])
-   # def KeyBind(self): #Continuo el keyimput solucionar
-        #pressed_keys = pygame.event.wait()
-        #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
-           # self.Menu_Loaded = False if self.Menu_Loaded else True
+        # def KeyBind(self): #Continuo el keyimput solucionar
+            #pressed_keys = pygame.event.wait()
+            #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
+            # self.Menu_Loaded = False if self.Menu_Loaded else True
+            
+            #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_UP):
+            #   self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
         
-        #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_UP):
-         #   self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
-       
 
 
-        #if self.Menu_Loaded: self.imprimir()
-        
-        #print(self.Menu_Sel)
-        #if(event.key == pygame.K_o):
-        #    print("Press o")
+            #if self.Menu_Loaded: self.imprimir()
+            
+            #print(self.Menu_Sel)
+            #if(event.key == pygame.K_o):
+            #    print("Press o")
     
     def imprimir(self):
-        print("Asd")
         arrowpos = {
             1: 15,
             2: 45,
@@ -65,12 +64,12 @@ class Select_Menu:
             7: 195
             }
         #Imprime el background
-        menu = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\menu\m_0.png')    # 384 x 365
+        menu = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\m_0.png')    # 384 x 365
         menu_resized = pygame.transform.scale(menu, (240 * self.RESIZE, 160 * self.RESIZE))
 
 
 
-        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\menu\Arrow.png')    # 6 x 11
+        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\Arrow.png')    # 6 x 11
         arrow_resized = pygame.transform.scale(arrow, (6 * self.RESIZE, 11 * self.RESIZE))
 
 
