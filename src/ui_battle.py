@@ -7,7 +7,10 @@ class Battle:
         self.Menu_Loaded = False
         self.screen = screen2
         self.RESIZE = resize
-        self.Menu_Sel = 1
+        self.Menu_Sel = {
+            "Poss": 3,
+            "Menu": 1
+            }
 
 
     def MenuLoad(self):
@@ -36,12 +39,13 @@ class Battle:
         print(MenuInput[self.Menu_Sel])
     def imprimir(self):
         arrowpos = {
-            1: 15,
-            2: 45,
-            3: 75,
-            4: 105
+            1: [258,247],
+            2: [370,247],
+            3: [258,280],
+            4: [370,280]
             }
         #Imprime el backgrounds
+        #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-11.png")
         background = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/b_0.png")    # 384 x 365
         background_resized = pygame.transform.scale(background, (240 * self.RESIZE, 160 * self.RESIZE))
 
@@ -53,7 +57,7 @@ class Battle:
         ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/txt_ui_0.png')    # 240 x 160
         ui_resized = pygame.transform.scale(ui, (240 * self.RESIZE, 160 * self.RESIZE))
 
-        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\Arrow.png')    # 6 x 10
+        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/Arrow.png')    # 6 x 10
         arrow_resized = pygame.transform.scale(arrow, (6 * self.RESIZE, 10 * self.RESIZE))
 
         #####Info pokemons#####
@@ -66,26 +70,37 @@ class Battle:
         iplayer = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/ip_0.png")    # 384 x 365
         iplayer_resized = pygame.transform.scale(iplayer, (240 * self.RESIZE, 160 * self.RESIZE))
 
+
+        #####POKEMONS#####
+        pknemy = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/pokemons/caterpie/front.png")    # 384 x 365
+        pknemy_resized = pygame.transform.scale(pknemy, (64 * self.RESIZE, 64 * self.RESIZE))
+
+        #Player
+        pklayer = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/pokemons/bulbasaur/back.png")    # 384 x 365
+        pklayer_resized = pygame.transform.scale(pklayer, (64 * self.RESIZE, 64 * self.RESIZE))
+
         self.screen.blit(background_resized, background_resized.get_rect())
+
+
+        self.screen.blit(pknemy_resized, (290 ,50))
+        self.screen.blit(pklayer_resized, (80 ,130))
+
         self.screen.blit(ui_resized, ui_resized.get_rect())
         self.screen.blit(txt_ui_resized, ui_resized.get_rect())
 
 
         self.screen.blit(ienemy_resized, ui_resized.get_rect())
         self.screen.blit(iplayer_resized, ui_resized.get_rect())
-        self.screen.blit(arrow_resized, ui_resized.get_rect())
+        self.screen.blit(arrow_resized, (arrowpos[self.Menu_Sel["Poss"]][0], arrowpos[self.Menu_Sel["Poss"]][1]))
 
         #Imprime el texto
-       # pygame.font.init()
+        pygame.font.init()
         
-        #font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 30, bold=True)
-        #self.screen.blit(font.render('POKéDEX', False, (96, 96, 96)) ,(370 ,10))
-        #self.screen.blit(font.render('POKéMON', False, (96, 96, 96)) ,(370 ,40))
-        #self.screen.blit(font.render('BAG', False, (96, 96, 96)) ,(370 ,70))
-        #self.screen.blit(font.render('TR ERROR', False, (96, 96, 96)) ,(370 ,100))
-        #self.screen.blit(font.render('SAVE', False, (96, 96, 96)) ,(370 ,130))
-        #self.screen.blit(font.render('OPTIONS', False, (96, 96, 96)) ,(370 ,160))
-        #self.screen.blit(font.render('EXIT', False, (96, 96, 96)) ,(370 ,190))
+        font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 30, bold=True)
+        self.screen.blit(font.render('LUCHA', False, (96, 96, 96)) ,(272 ,242))
+        self.screen.blit(font.render('MOCHILA', False, (96, 96, 96)) ,(383 ,242))
+        self.screen.blit(font.render('POKéDEX', False, (96, 96, 96)) ,(272 ,275))
+        self.screen.blit(font.render('HUIDA', False, (96, 96, 96)) ,(383 ,275))
 
         pygame.display.flip()
 
