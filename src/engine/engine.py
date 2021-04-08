@@ -18,7 +18,7 @@ class Game:
         parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
         img_folder = os.path.join(parentDirectory, 'src')
         self.map = Map(os.path.join(parentDirectory, 'src/maps/map.txt'))
-        self.player_img = pg.image.load(os.path.join(img_folder, PLAYER_SPRITE)).convert_alpha()
+        #self.player_img = pg.image.load(os.path.join(img_folder, PLAYER_SPRITE)).convert_alpha()
 
 
     def new(self):
