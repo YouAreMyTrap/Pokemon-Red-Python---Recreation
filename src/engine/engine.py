@@ -4,6 +4,10 @@ from settings import *
 from sprites import *
 from tilemap import *
 
+sys.path.insert(0, os.path.abspath(os.curdir))
+from Sel_Menu import *
+from ui_battle import *
+
 
 ############# LOAD GAME #############
 class Game:
@@ -15,11 +19,17 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
+        self.Menu = Select_Menu(self.screen ,RESIZE)
+        self.Battle = Battle(self.screen ,RESIZE)
+
 
     def load_data(self):
-        parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+        parentDirectory = os.path.abspath(os.curdir)
+        #print(parentDirectory)
         img_folder = os.path.join(parentDirectory, 'src')
         self.map = Map(os.path.join(parentDirectory, 'maps/map.txt'))
+
+        
         #parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
         ## load map file
         #map_folder = os.path.join(parentDirectory, 'maps')
@@ -50,9 +60,11 @@ class Game:
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000 # Delta Time
-            self.events()
             self.update()
             self.draw()
+            self.events()
+            
+
 
     def quit(self):
         pg.quit()
@@ -74,24 +86,51 @@ class Game:
         self.draw_grid()
         for sprite  in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+            
+        self.Menu.Draw()
+        self.Battle.Draw()
         pg.display.flip()
 
     def events(self):
+        
         # catch all events here
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    self.quit()
-                if event.key == pg.K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT:
-                    self.player.move(dx=1)
-                if event.key == pg.K_UP:
-                    self.player.move(dy=-1)
-                if event.key == pg.K_DOWN:
-                    self.player.move(dy=1)
+        for event in pg.event.get(): # z=b x=a a=sel s=op
+            
+            if event.type == pg.KEYDOWN: 
+                if event.type == pg.QUIT: self.quit()   
+                if event.key == pg.K_ESCAPE: self.quit()
+
+                if event.key == pg.K_s:
+                    self.Menu.MenuLoad()
+                    self.Menu.Menu_Sel = 1
+                
+                if event.key == pg.K_b:
+                    self.Battle.BattleLoad()
+                    self.Battle.Menu_Sel = {
+                                    "Poss": 1,
+                                    "Menu": 0
+                                    }
+                if self.Menu.Menu_Loaded:
+                    if event.key == pg.K_UP: self.Menu.MenuUP()
+                    if event.key == pg.K_DOWN: self.Menu.MenuDown()
+                    if event.key == pg.K_x: self.Menu.Sel()
+                elif self.Battle.Battle:
+                    if event.key == pg.K_LEFT: self.Battle.BattleLEFT()
+                    if event.key == pg.K_RIGHT: self.Battle.BattleRIGHT()
+                    if event.key == pg.K_UP: self.Battle.BattleUP()
+                    if event.key == pg.K_DOWN: self.Battle.BattleDown()
+                    if event.key == pg.K_x: self.Battle.Sel()
+                    if event.key == pg.K_z: self.Battle.Back()
+
+                else:
+                    print("SD")
+                    if event.key == pg.K_LEFT: self.player.move(dx=-1)
+                    if event.key == pg.K_RIGHT: self.player.move(dx=1)
+                    if event.key == pg.K_UP: self.player.move(dy=-1)
+                    if event.key == pg.K_DOWN: self.player.move(dy=1)   
+                    if event.key == pg.K_x: print("Interactuar")
+                    
+
 
     def show_start_screen(self):
         pass

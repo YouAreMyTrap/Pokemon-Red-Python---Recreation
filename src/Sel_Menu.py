@@ -12,9 +12,9 @@ class Select_Menu:
 
     def MenuLoad(self):
         """Show/UnShow Menu"""
-        #print(self.Menu_Loaded)
-        if self.Menu_Loaded: self.imprimir()
+        #if self.Menu_Loaded: self.imprimir()
         self.Menu_Loaded = False if self.Menu_Loaded else True
+        #print(self.Menu_Loaded)
         
         
     def MenuDown(self):
@@ -24,7 +24,7 @@ class Select_Menu:
         """Move Arrow to UP"""
         self.Menu_Sel -= 1 if not self.Menu_Sel == 1 else 0
 
-    def Sel_Menu(self):
+    def Sel(self):
         """Load menu selection"""
         MenuInput = {
             1: "Pokedex",
@@ -52,16 +52,18 @@ class Select_Menu:
             #print(self.Menu_Sel)
             #if(event.key == pygame.K_o):
             #    print("Press o")
-    
-    def imprimir(self):
+    def Draw(self):
+        if self.Menu_Loaded: self.print()
+
+    def print(self):
         arrowpos = {
-            1: 15,
-            2: 45,
-            3: 75,
-            4: 105,
-            5: 135,
-            6: 165,
-            7: 195
+            1: 7.5,
+            2: 22.5,
+            3: 37.5,
+            4: 52.5,
+            5: 67.5,
+            6: 82.5,
+            7: 97.5
             }
         #Imprime el background
         menu = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\m_0.png')    # 384 x 365
@@ -74,19 +76,19 @@ class Select_Menu:
 
 
         self.screen.blit(menu_resized, menu_resized.get_rect())
-        self.screen.blit(arrow_resized,(350 ,arrowpos[self.Menu_Sel]))
+        self.screen.blit(arrow_resized,(175 * self.RESIZE, arrowpos[self.Menu_Sel] * self.RESIZE))
 
         #Imprime el texto
         pygame.font.init()
         
-        font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 30, bold=True)
-        self.screen.blit(font.render('POKéDEX', False, (96, 96, 96)) ,(370 ,10))
-        self.screen.blit(font.render('POKéMON', False, (96, 96, 96)) ,(370 ,40))
-        self.screen.blit(font.render('BAG', False, (96, 96, 96)) ,(370 ,70))
-        self.screen.blit(font.render('TR ERROR', False, (96, 96, 96)) ,(370 ,100))
-        self.screen.blit(font.render('SAVE', False, (96, 96, 96)) ,(370 ,130))
-        self.screen.blit(font.render('OPTIONS', False, (96, 96, 96)) ,(370 ,160))
-        self.screen.blit(font.render('EXIT', False, (96, 96, 96)) ,(370 ,190))
+        font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
+        self.screen.blit(font.render('POKéDEX', False, (96, 96, 96)) ,(185 * self.RESIZE, 5 * self.RESIZE))
+        self.screen.blit(font.render('POKéMON', False, (96, 96, 96)) ,(185 * self.RESIZE, 20 * self.RESIZE))
+        self.screen.blit(font.render('BAG', False, (96, 96, 96)) ,(185 * self.RESIZE, 35 * self.RESIZE))
+        self.screen.blit(font.render('TR ERROR', False, (96, 96, 96)) ,(185 * self.RESIZE, 50 * self.RESIZE))
+        self.screen.blit(font.render('SAVE', False, (96, 96, 96)) ,(185 * self.RESIZE, 65 * self.RESIZE))
+        self.screen.blit(font.render('OPTIONS', False, (96, 96, 96)) ,(185 * self.RESIZE, 80 * self.RESIZE))
+        self.screen.blit(font.render('EXIT', False, (96, 96, 96)) ,(185 * self.RESIZE, 95 * self.RESIZE))
 
-        #pygame.display.flip()
+        pygame.display.flip()
 

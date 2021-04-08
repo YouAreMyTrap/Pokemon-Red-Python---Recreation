@@ -11,7 +11,7 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
 # game settings
-RESIZE = 3
+RESIZE = 2
 WIDTH = 240 * RESIZE   # 16 * 64 or 32 * 32 or 64 * 16
 HEIGHT = 160 * RESIZE  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
