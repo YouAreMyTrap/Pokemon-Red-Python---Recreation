@@ -1,12 +1,14 @@
-import pygame as pg
 import sys
 import os
 from settings import *
 from sprites import *
 from tilemap import *
 
+
+############# LOAD GAME #############
 class Game:
     def __init__(self):
+        # Create Window
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -16,9 +18,20 @@ class Game:
 
     def load_data(self):
         parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-        img_folder = os.path.join(parentDirectory, 'sprite')
+        img_folder = os.path.join(parentDirectory, 'src')
         self.map = Map(os.path.join(parentDirectory, 'maps/map.txt'))
-        self.player_img = pg.image.load(os.path.join(img_folder, PLAYER_SPRITE)).convert_alpha()
+        #parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+        ## load map file
+        #map_folder = os.path.join(parentDirectory, 'maps')
+        #self.map = Map(os.path.abspath(os.path.join(map_folder, 'map.txt')))
+        #
+        ## load player folder
+        #player_folder = os.path.abspath(os.path.join(parentDirectory, 'images/sprite'))
+        #
+        ## load player sprite
+        #Sel_P_Sprite = os.path.abspath(os.path.join(player_folder, 'boy/walk/ss_walk_side.png'))
+        #
+        #self.spritesheet = Spritesheet(os.path.join(player_folder, PLAYER_SPRITE))
 
 
     def new(self):
@@ -26,17 +39,17 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.player = Player(self, 10, 10)
-        for row, tiles in enumerate(self.map.data):
+        for row, tiles in enumerate(self.map.data): # get all data from map
             for col, tile in enumerate(tiles):
-                if tile == "1":
+                if tile == "1":                     # all "1" in data file will spawn a wall
                     Wall(self, col, row)
-        self.camera = Camera(self.map.width, self.map.height)
+        self.camera = Camera(self.map.width, self.map.height)   # set "camera" for scrolling screen
 
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
         while self.playing:
-            self.dt = self.clock.tick(FPS) / 1000
+            self.dt = self.clock.tick(FPS) / 1000 # Delta Time
             self.events()
             self.update()
             self.draw()
@@ -83,8 +96,6 @@ class Game:
     def show_start_screen(self):
         pass
 
-    def show_go_screen(self):
-        pass
 
 # create the game object
 g = Game()
