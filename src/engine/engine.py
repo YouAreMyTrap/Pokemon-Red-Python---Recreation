@@ -100,11 +100,11 @@ class Game:
                 if event.type == pg.QUIT: self.quit()   
                 if event.key == pg.K_ESCAPE: self.quit()
 
-                if event.key == pg.K_s:
+                if event.key == pg.K_s and not self.Battle.Battle:
                     self.Menu.MenuLoad()
                     self.Menu.Menu_Sel = 1
                 
-                if event.key == pg.K_b:
+                if event.key == pg.K_b and not self.Menu.Menu_Loaded:
                     self.Battle.BattleLoad()
                     self.Battle.Menu_Sel = {
                                     "Poss": 1,
@@ -113,6 +113,8 @@ class Game:
                 if self.Menu.Menu_Loaded:
                     if event.key == pg.K_UP: self.Menu.MenuUP()
                     if event.key == pg.K_DOWN: self.Menu.MenuDown()
+                    if event.key == pg.K_x: self.Menu.Sel()
+                    if event.key == pg.K_z: self.Menu.Back()
                     if event.key == pg.K_x: self.Menu.Sel()
                 elif self.Battle.Battle:
                     if event.key == pg.K_LEFT: self.Battle.BattleLEFT()
@@ -123,7 +125,7 @@ class Game:
                     if event.key == pg.K_z: self.Battle.Back()
 
                 else:
-                    print("SD")
+                    #print("SD")
                     if event.key == pg.K_LEFT: self.player.move(dx=-1)
                     if event.key == pg.K_RIGHT: self.player.move(dx=1)
                     if event.key == pg.K_UP: self.player.move(dy=-1)

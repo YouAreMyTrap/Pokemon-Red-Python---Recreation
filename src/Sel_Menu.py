@@ -1,5 +1,6 @@
 import pygame
 import os
+from settings import *
 
 class Select_Menu:
     def __init__(self, screen2, resize = 0):
@@ -37,6 +38,7 @@ class Select_Menu:
             }
 
         print(MenuInput[self.Menu_Sel])
+        if MenuInput[self.Menu_Sel] == "EXIT": self.Menu_Loaded = False
         # def KeyBind(self): #Continuo el keyimput solucionar
             #pressed_keys = pygame.event.wait()
             #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
@@ -55,18 +57,22 @@ class Select_Menu:
     def Draw(self):
         if self.Menu_Loaded: self.print()
 
+
+    def Back(self):
+        self.Menu_Loaded = False
+
     def print(self):
-        arrowpos = {
-            1: 7.5,
-            2: 22.5,
-            3: 37.5,
-            4: 52.5,
-            5: 67.5,
-            6: 82.5,
-            7: 97.5
+        Data = {
+            1: [7.5, "A device that records POKéMON secrets", "upon meeting or catching them."],
+            2: [22.5, "Check and organize POKéMON that are", "traveling with you in your party."],
+            3: [37.5, "Equipped with pockets for storing items", "you bought, received, or found."],
+            4: [52.5, "Check your money and other game data.", ""],
+            5: [67.5, "Save your game with a complete record", "of your progress to take a break."],
+            6: [82.5, "Adjust various game settings such as text", "speed, game rules, etc."],
+            7: [97.5, "Close this MENU window,", ""]
             }
         #Imprime el background
-        menu = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\m_0.png')    # 384 x 365
+        menu = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\m_'+ str(PLAYER_FRAME) +'.png')    # 384 x 365
         menu_resized = pygame.transform.scale(menu, (240 * self.RESIZE, 160 * self.RESIZE))
 
 
@@ -76,7 +82,7 @@ class Select_Menu:
 
 
         self.screen.blit(menu_resized, menu_resized.get_rect())
-        self.screen.blit(arrow_resized,(175 * self.RESIZE, arrowpos[self.Menu_Sel] * self.RESIZE))
+        self.screen.blit(arrow_resized,(175 * self.RESIZE, Data[self.Menu_Sel][0] * self.RESIZE))
 
         #Imprime el texto
         pygame.font.init()
@@ -89,6 +95,9 @@ class Select_Menu:
         self.screen.blit(font.render('SAVE', False, (96, 96, 96)) ,(185 * self.RESIZE, 65 * self.RESIZE))
         self.screen.blit(font.render('OPTIONS', False, (96, 96, 96)) ,(185 * self.RESIZE, 80 * self.RESIZE))
         self.screen.blit(font.render('EXIT', False, (96, 96, 96)) ,(185 * self.RESIZE, 95 * self.RESIZE))
+
+        self.screen.blit(font.render(Data[self.Menu_Sel][1], False, (255, 255, 255)) ,(5 * self.RESIZE, 125 * self.RESIZE))
+        self.screen.blit(font.render(Data[self.Menu_Sel][2], False, (255, 255, 255)) ,(5 * self.RESIZE, 140 * self.RESIZE))
 
         pygame.display.flip()
 

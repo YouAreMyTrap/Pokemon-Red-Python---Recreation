@@ -1,5 +1,6 @@
 import pygame
 import os
+from settings import *
 
 class Battle:
     def __init__(self, screen2, resize = 0):
@@ -35,13 +36,13 @@ class Battle:
             0 - Menu 1
             1- Menu 2"""
         MenuInput = {
-            1: ["BATTLE","A1"],
+            1: ["FIGHT","A1"],
             2: ["BAG","A2"],
             10: ["POKéMON","A3"],
-            20: ["HUIDA","A4"]
+            20: ["RUN","A4"]
             }
 
-        if MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]] == "BATTLE": 
+        if MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]] == "FIGHT": 
              self.Menu_Sel["Menu"] = 1
         print(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
 
@@ -56,7 +57,7 @@ class Battle:
     def print(self):
         Data = {
             0: {
-                "Img": "ui_0",
+                "Img": "ui_" + str(PLAYER_FRAME),
                 1: [129,123.5],
                 2: [185,123.5],
                 10: [129,140],
@@ -66,7 +67,7 @@ class Battle:
                 "text3": [136,137.5],
                 "text4": [191.5,137.5]},
             1:{
-                "Img": "mov_ui_0",
+                "Img": "mov_ui_" + str(PLAYER_FRAME),
                 1: [9,123.5],
                 2: [79,123.5],
                 10: [9,140],
@@ -77,7 +78,7 @@ class Battle:
                 "text4": [86,137.5]}
             }
         #Imprime el backgrounds
-        #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-16.png")
+        #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-7.png")
         background = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/b_0.png")    # 384 x 365
         background_resized = pygame.transform.scale(background, (240 * self.RESIZE, 160 * self.RESIZE))
 
@@ -116,8 +117,8 @@ class Battle:
         self.screen.blit(background_resized, background_resized.get_rect())
 
 
-        self.screen.blit(pknemy_resized, (72.5 * self.RESIZE,12.5 * self.RESIZE))
-        self.screen.blit(pklayer_resized, (20  * self.RESIZE,32.5 * self.RESIZE))
+        self.screen.blit(pknemy_resized, (144 * self.RESIZE, 25 * self.RESIZE))
+        self.screen.blit(pklayer_resized, (40  * self.RESIZE, 65 * self.RESIZE))
 
         self.screen.blit(ui_resized, ui_resized.get_rect())
         self.screen.blit(txt_ui_resized, ui_resized.get_rect())
@@ -131,10 +132,10 @@ class Battle:
         pygame.font.init()
         
         font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
-        self.screen.blit(font.render('LUCHA', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text1"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text1"][1] * self.RESIZE))
-        self.screen.blit(font.render('MOCHILA', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text2"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text2"][1] * self.RESIZE))
+        self.screen.blit(font.render('FIGHT', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text1"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text1"][1] * self.RESIZE))
+        self.screen.blit(font.render('BAG', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text2"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text2"][1] * self.RESIZE))
         self.screen.blit(font.render('POKéMON', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text3"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text3"][1] * self.RESIZE))
-        self.screen.blit(font.render('HUIDA', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text4"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text4"][1] * self.RESIZE))
+        self.screen.blit(font.render('RUN', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text4"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text4"][1] * self.RESIZE))
 
         pygame.display.flip()
 
