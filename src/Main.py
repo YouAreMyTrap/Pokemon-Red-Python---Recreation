@@ -1,4 +1,9 @@
 from Login_Menu import *
+#from SQLCall import *
+
+#sql =SQL
+
+#print(SQL().GetPokemon(1))
 #from Pokemon import *
 
 #pk = Pokemon_Player(1, "sd", 1, 81, 9999)

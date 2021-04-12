@@ -5,30 +5,53 @@ import os
 
 
 class Pokemon:
-    def __init__(self):
-        self.ID = 0
-        self.NAME = 0
-        self.BaseStats = 0
-        self.Mexp = 0
-        self.ID = 0
-        self.json = {
+    def __init__(self, id):
+        self.ID = id
+        self.dfvalues = {
             "name":"bulbasaur",
             "maxxp":1059860,
-            "gender_m"87.5%,
+            "type": {
+                1: "Grass",
+                2: "Poison"
+                    },
+            "gender_m":87.5/100,
             "ko_HP": 0,
             "ko_Attack": 0, 
             "ko_Defense": 0, 
             "ko_Special Attack": 1, 
             "ko_Special Defense": 0, 
             "ko_Speed": 0,
+            "ko_xp": 64, 
             "b_HP": 45, 
             "b_Attack": 49, 
             "b_Defense": 49, 
             "b_Special Attack": 65, 
             "b_Special Defense": 65, 
             "b_Speed": 45, 
-            "b_Friend":70 
+            "b_Friend":70,
+            "MOVS": {
+                1: ["MissingMo.1", 10],
+                2: ["MissingMo.2", 10],
+                3: ["MissingMo.3", 10],
+                4: ["MissingMo.4", 10]
+                   },
+            "description":"",
+            "height":"",
+            "weight":""
             }
+    def GetName(self):
+        return self.dfvalues["name"]
+    def GetMovsBylevel(self, level):
+        return self.dfvalues["MOVS"][level]
+    def GetRateGender(self):
+        return self.dfvalues["gender_m"]
+    def GetBaseStats(self):
+        return self.dfvalues["b_HP"], self.dfvalues["b__Attack"], self.dfvalues["b_Defense"], self.dfvalues["b_Special Attack"], self.dfvalues["b_Special Defense"], self.dfvalues["b_Speed"]
+    def GetKOexp(self):
+        return self.dfvalues["ko_xp"]
+    def GetKOEvs(self):
+        return self.dfvalues["ko_HP"], self.dfvalues["ko_Attack"], self.dfvalues["ko_Defense"], self.dfvalues["ko_Special Attack"], self.dfvalues["ko_Special Defense"], self.dfvalues["ko_Speed"]
+
 class Pokemon_Pokedex:
     def __init__(self):
         self.ID = 0
