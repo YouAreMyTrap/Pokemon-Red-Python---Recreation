@@ -1,5 +1,7 @@
 import pygame as pg
 import json
+import os
+import sys
 
 # define some colors (R, G, B)
 WHITE = (255, 255, 255)
@@ -30,3 +32,7 @@ PLAYER_BATTLE_STYLE = 1
 PLAYER_SOUND = "MONO"
 PLAYER_BUTTON_MODE = "DISABLED"
 PLAYER_FRAME = 10
+
+parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+#parentsource = os.path.abspath(os.path.join(os.getcwd()))
+parentsource = os.path.join(parentDirectory, "src")

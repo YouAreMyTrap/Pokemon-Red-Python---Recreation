@@ -79,39 +79,39 @@ class Battle:
             }
         #Imprime el backgrounds
         #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-7.png")
-        background = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/b_0.png")    # 384 x 365
+        background = pygame.image.load(parentsource +"/images/battle/b_0.png")    # 384 x 365
         background_resized = pygame.transform.scale(background, (240 * self.RESIZE, 160 * self.RESIZE))
 
         #Donde ira el texto
-        #txt_ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/mov_ui_0.png')
-        txt_ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/'+ Data[self.Menu_Sel["Menu"]]["Img"] +'.png')    # 240 x 160
+        #txt_ui = pygame.image.load(parentsource +'/images/battle/mov_ui_0.png')
+        txt_ui = pygame.image.load(parentsource +'/images/battle/'+ Data[self.Menu_Sel["Menu"]]["Img"] +'.png')    # 240 x 160
         txt_ui_resized = pygame.transform.scale(txt_ui, (240 * self.RESIZE, 160 * self.RESIZE))
         
         #Donde el jugador hace las acciones - Menu - Battle
         
-        ui = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/txt_ui_0.png')    # 240 x 160
+        ui = pygame.image.load(parentsource +'/images/battle/txt_ui_0.png')    # 240 x 160
         ui_resized = pygame.transform.scale(ui, (240 * self.RESIZE, 160 * self.RESIZE))
 
-        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'/images/battle/Arrow.png')    # 6 x 10
+        arrow = pygame.image.load(parentsource +'/images/battle/Arrow.png')    # 6 x 10
         arrow_resized = pygame.transform.scale(arrow, (6 * self.RESIZE, 10 * self.RESIZE))
 
         #####Info pokemons#####
 
         #Enemy
-        ienemy = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/ie_0.png")    # 384 x 365
+        ienemy = pygame.image.load(parentsource +"/images/battle/ie_0.png")    # 384 x 365
         ienemy_resized = pygame.transform.scale(ienemy, (240 * self.RESIZE, 160 * self.RESIZE))
 
         #Player
-        iplayer = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/battle/ip_0.png")    # 384 x 365
+        iplayer = pygame.image.load(parentsource +"/images/battle/ip_0.png")    # 384 x 365
         iplayer_resized = pygame.transform.scale(iplayer, (240 * self.RESIZE, 160 * self.RESIZE))
 
 
         #####POKEMONS#####
-        pknemy = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/pokemons/caterpie/front.png")    # 384 x 365
+        pknemy = pygame.image.load(parentsource +"/images/pokemons/caterpie/front.png")    # 384 x 365
         pknemy_resized = pygame.transform.scale(pknemy, (64 * self.RESIZE, 64 * self.RESIZE))
 
         #Player
-        pklayer = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +"/images/pokemons/bulbasaur/back.png")    # 384 x 365
+        pklayer = pygame.image.load(parentsource +"/images/pokemons/bulbasaur/back.png")    # 384 x 365
         pklayer_resized = pygame.transform.scale(pklayer, (64 * self.RESIZE, 64 * self.RESIZE))
 
         self.screen.blit(background_resized, background_resized.get_rect())
@@ -131,7 +131,7 @@ class Battle:
         #Imprime el texto
         pygame.font.init()
         
-        font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
+        font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
         self.screen.blit(font.render('FIGHT', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text1"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text1"][1] * self.RESIZE))
         self.screen.blit(font.render('BAG', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text2"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text2"][1] * self.RESIZE))
         self.screen.blit(font.render('POKéMON', False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text3"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text3"][1] * self.RESIZE))

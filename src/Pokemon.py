@@ -11,6 +11,24 @@ class Pokemon:
         self.BaseStats = 0
         self.Mexp = 0
         self.ID = 0
+        self.json = {
+            "name":"bulbasaur",
+            "maxxp":1059860,
+            "gender_m"87.5%,
+            "ko_HP": 0,
+            "ko_Attack": 0, 
+            "ko_Defense": 0, 
+            "ko_Special Attack": 1, 
+            "ko_Special Defense": 0, 
+            "ko_Speed": 0,
+            "b_HP": 45, 
+            "b_Attack": 49, 
+            "b_Defense": 49, 
+            "b_Special Attack": 65, 
+            "b_Special Defense": 65, 
+            "b_Speed": 45, 
+            "b_Friend":70 
+            }
 class Pokemon_Pokedex:
     def __init__(self):
         self.ID = 0

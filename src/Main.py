@@ -1,5 +1,5 @@
 from Login_Menu import *
-from Pokemon import *
+#from Pokemon import *
 
 #pk = Pokemon_Player(1, "sd", 1, 81, 9999)
 

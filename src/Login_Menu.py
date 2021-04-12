@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 class Dirs:
     parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-
+    print(parentDirectory)
     # Img
     img = os.path.join(parentDirectory, "img")
 

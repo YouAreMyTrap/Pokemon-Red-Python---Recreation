@@ -72,12 +72,12 @@ class Select_Menu:
             7: [97.5, "Close this MENU window,", ""]
             }
         #Imprime el background
-        menu = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\m_'+ str(PLAYER_FRAME) +'.png')    # 384 x 365
+        menu = pygame.image.load(parentsource +'\images\menu\m_'+ str(PLAYER_FRAME) +'.png')    # 384 x 365
         menu_resized = pygame.transform.scale(menu, (240 * self.RESIZE, 160 * self.RESIZE))
 
 
 
-        arrow = pygame.image.load(os.path.dirname(os.path.realpath(__file__)) +'\images\menu\Arrow.png')    # 6 x 11
+        arrow = pygame.image.load(parentsource +'\images\menu\Arrow.png')    # 6 x 11
         arrow_resized = pygame.transform.scale(arrow, (6 * self.RESIZE, 11 * self.RESIZE))
 
 
@@ -87,7 +87,7 @@ class Select_Menu:
         #Imprime el texto
         pygame.font.init()
         
-        font = pygame.font.Font(os.path.dirname(os.path.realpath(__file__)) + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
+        font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
         self.screen.blit(font.render('POKéDEX', False, (96, 96, 96)) ,(185 * self.RESIZE, 5 * self.RESIZE))
         self.screen.blit(font.render('POKéMON', False, (96, 96, 96)) ,(185 * self.RESIZE, 20 * self.RESIZE))
         self.screen.blit(font.render('BAG', False, (96, 96, 96)) ,(185 * self.RESIZE, 35 * self.RESIZE))

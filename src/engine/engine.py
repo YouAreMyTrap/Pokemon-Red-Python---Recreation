@@ -4,7 +4,7 @@ from settings import *
 from sprites import *
 from tilemap import *
 
-sys.path.insert(0, os.path.abspath(os.curdir))
+#sys.path.insert(0, os.path.abspath(os.curdir))
 from Sel_Menu import *
 from ui_battle import *
 
@@ -24,6 +24,7 @@ class Game:
 
 
     def load_data(self):
+        print(parentsource)
         parentDirectory = os.path.abspath(os.curdir)
         #print(parentDirectory)
         img_folder = os.path.join(parentDirectory, 'src')

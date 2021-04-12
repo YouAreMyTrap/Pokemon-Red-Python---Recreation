@@ -94,7 +94,7 @@ while running:
     circle = pygame.draw.circle(screen, (0, 0, 255), (240, 160), 10)
            #Press menu
    # Menu.KeyBind()  #Si se añade el menu no se puede mover
-    #Menu.imprimir()
+    narutoMenu.imprimir()
     # Flip the display
     pygame.display.flip()
 
