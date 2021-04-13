@@ -1,5 +1,10 @@
 from Login_Menu import *
 #from SQLCall import *
+#from engine.player import *
+
+
+
+#print(Player(1).pokemon.GetHp())
 
 #sql =SQL
 
@@ -17,4 +22,4 @@ from Login_Menu import *
 # print("Exist User: ", SQL().ConnectUser("user12", "0"))
 
 
-LoginMenu()
+#LoginMenu()

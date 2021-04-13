@@ -5,7 +5,7 @@ import os
 
 
 class Pokemon:
-    def __init__(self, id):
+    def __init__(self, id=1):
         self.ID = id
         self.dfvalues = {
             "name":"bulbasaur",
@@ -15,21 +15,19 @@ class Pokemon:
                 2: "Poison"
                     },
             "gender_m":87.5/100,
-            "ko_HP": 0,
-            "ko_Attack": 0, 
-            "ko_Defense": 0, 
-            "ko_Special Attack": 1, 
-            "ko_Special Defense": 0, 
-            "ko_Speed": 0,
-            "ko_xp": 64, 
-            "b_HP": 45, 
-            "b_Attack": 49, 
-            "b_Defense": 49, 
-            "b_Special Attack": 65, 
-            "b_Special Defense": 65, 
-            "b_Speed": 45, 
-            "b_Friend":70,
-            "MOVS": {
+            "ko":{
+                "xp": 64
+                },
+            "base":{
+                "HP": 45, 
+                "Attack": 49, 
+                "Defense": 49, 
+                "Special Attack": 65, 
+                "Special Defense": 65, 
+                "Speed": 45, 
+                "Friend":70
+            },
+            "MOVS": { #editar
                 1: ["MissingMo.1", 10],
                 2: ["MissingMo.2", 10],
                 3: ["MissingMo.3", 10],
@@ -40,17 +38,19 @@ class Pokemon:
             "weight":""
             }
     def GetName(self):
+        #pass
+        #print("SDA")
         return self.dfvalues["name"]
     def GetMovsBylevel(self, level):
         return self.dfvalues["MOVS"][level]
     def GetRateGender(self):
         return self.dfvalues["gender_m"]
     def GetBaseStats(self):
-        return self.dfvalues["b_HP"], self.dfvalues["b__Attack"], self.dfvalues["b_Defense"], self.dfvalues["b_Special Attack"], self.dfvalues["b_Special Defense"], self.dfvalues["b_Speed"]
+        return self.dfvalues["base"]["HP"], self.dfvalues["base"]["Attack"], self.dfvalues["base"]["Defense"], self.dfvalues["base"]["Special Attack"], self.dfvalues["base"]["Special Defense"], self.dfvalues["base"]["Speed"]
     def GetKOexp(self):
-        return self.dfvalues["ko_xp"]
-    def GetKOEvs(self):
-        return self.dfvalues["ko_HP"], self.dfvalues["ko_Attack"], self.dfvalues["ko_Defense"], self.dfvalues["ko_Special Attack"], self.dfvalues["ko_Special Defense"], self.dfvalues["ko_Speed"]
+        return self.dfvalues["ko"]["xp"]
+   # def GetKOEvs(self):
+   #     return self.dfvalues["ko"]["HP"], self.dfvalues["ko"]["Attack"], self.dfvalues["ko"]["Defense"], self.dfvalues["ko"]["Special Attack"], self.dfvalues["ko"]["Special Defense"], self.dfvalues["ko"]["Speed"]
 
 class Pokemon_Pokedex:
     def __init__(self):
@@ -70,78 +70,86 @@ class Pokemon_Pokedex:
 
 
 
-class Pokemon_Player:
+class Pokemon_Player(Pokemon):
     #def __init__(self, id, name, evs, mov, hp, lvl, exp):
-    def __init__(self, id, name, evs, cname, hp, lvl, exp, object):
-        self.id = id
-        self.name = name
-        self.cname = cname
-        self.hp_current = hp
-        self.lvl = lvl
-        self.exp = exp
-        self.exp_max = max_xp
-        self.object  = object
-        self.BaseStats = {   #Diferente por pokemon
-            "HP": 1,
-            "Attack": 1,
-            "Defense": 1,
-            "Special Attack": 1,
-            "Special Defense": 1,
-            "Speed": 1
-                }
-        self.evs = { #255 max en estadistica, se sube matando pokemons
-            "HP": 1,
-            "Attack": 1,
-            "Defense": 1,
-            "Special Attack": 1,
-            "Special Defense": 1,
-            "Speed": 1
-                }
-        self.ivs = {  #Del 0-15 Se genera al capturar un pokemon
-            "HP": 1,
-            "Attack": 1,
-            "Defense": 1,
-            "Special Attack": 1,
-            "Special Defense": 1,
-            "Speed": 1
-                }
-        self.mov = {
-            1: ["MissingMo.1", 10],
-            2: ["MissingMo.2", 10],
-            3: ["MissingMo.3", 10],
-            4: ["MissingMo.4", 10]
-        }
+    def __init__(self):
+        self.pkplayer = {
+            "id":1,
+            "cname":"lechuga",
+            "name":"bulbasaur",
+            "level":10,
+            "exp":"0",
+            "maxxp":1059860,
+            "object":"None",
+            "type": {
+                1: "Grass",
+                2: "Poison"
+                    },
+            "base":{ #Diferente por pokemon
+                "HP": 45, 
+                "Attack": 49, 
+                "Defense": 49, 
+                "Special Attack": 65, 
+                "Special Defense": 65, 
+                "Speed": 45, 
+                "Friend":70
+            },
+            "ivs":{ #Del 0-15 Se genera al capturar un pokemon
+                "HP": 45, 
+                "Attack": 49, 
+                "Defense": 49, 
+                "Special": 65, 
+                "Speed": 45, 
+                "Friend":70
+            },
+            "evs":{ #65535 max en estadistica, se sube matando pokemons
+                "HP": 45, 
+                "Attack": 49, 
+                "Defense": 49, 
+                "Special": 65, 
+                "Speed": 45, 
+                "Friend":70
+            },
+            "MOVS": { #editar
+                1: ["MissingMo.1", 10],
+                2: ["MissingMo.2", 10],
+                3: ["MissingMo.3", 10],
+                4: ["MissingMo.4", 10]
+                   }
+            }
 
+    def GetMov(self, id):
+        return self.pkplayer["MOVS"][id][0]
     def GetHp(self): #Haha Mateh
         """Get HP of Pokemon"""
-        return math.trunc(((((self.BaseStats["HP"] + self.ivs["HP"]) + 50 + (math.sqrt(self.evs["HP"])/8)) * self.lvl)/50) + 10)
+        return math.trunc(((((self.pkplayer["base"]["HP"] + self.pkplayer["ivs"]["HP"]) + 50 + (math.sqrt(self.pkplayer["evs"]["HP"])/8)) * self.pkplayer["level"])/50) + 10)
 
     def GetSAttack(self): #Haha Mateh
         """Get Special Attack of Pokemon"""
-        return math.trunc(((((self.BaseStats["Special Attack"] + self.ivs["HP"]) + (math.sqrt(self.evs["Special Attack"])/8)) * self.lvl)/50) + 5)
+        return math.trunc(((((self.pkplayer["base"]["Special Attack"] + self.pkplayer["ivs"]["Special"]) + (math.sqrt(self.pkplayer["evs"]["Special"])/8)) * self.pkplayer["level"])/50) + 5)
 
     def GetSDefense(self): #Haha Mateh
         """Get Special Defense of Pokemon"""
-        return math.trunc(((((self.BaseStats["Special Defense"] + self.ivs["HP"]) + (math.sqrt(self.evs["Special Defense"])/8)) * self.lvl)/50) + 5)
+        return math.trunc(((((self.pkplayer["base"]["Special Defense"] + self.pkplayer["ivs"]["Special"]) + (math.sqrt(self.pkplayer["evs"]["Special"])/8)) * self.pkplayer["level"])/50) + 5)
 
     def GetSpeed(self): #Haha Mateh
         """Get Speed of Pokemon"""
-        return math.trunc(((((self.BaseStats["Speed"] + self.ivs["HP"]) + (math.sqrt(self.evs["Speed"])/8)) * self.lvl)/50) + 5)
+        return math.trunc(((((self.pkplayer["base"]["Speed"] + self.pkplayer["ivs"]["Speed"]) + (math.sqrt(self.pkplayer["evs"]["Speed"])/8)) * self.pkplayer["level"])/50) + 5)
 
     def ChangeMovSet(self, id, mov, max):
         """Change Moveset of pokemon with new moviment"""
-        self.mov[id] = ["mov", max]
+        self.pkplayer["MOVS"][id] = [mov, max]
 
 
     def GetLevelUPNext(self):
         """Get how need for up level"""
-        if(self.exp_max == 800000): #Fast -100 level
+        if(self.pkplayer["maxxp"] == 800000): #Fast -100 level
             return (4*pow(self.lvl, 3))/5
-        elif(self.exp_max == 1000000): #MFast -100 level
+        elif(self.pkplayer["maxxp"] == 1000000): #MFast -100 level
             return pow(self.lvl, 3)
-        elif(self.exp_max == 1059860): #MSlow -100 level
-            return (((6/5) * pow(self.lvl, 3)) - (15 * pow(self.lvl, 2)) + (100 * self.lvl) - 140)
-        elif(self.exp_max == 1250000): #Fast -100 level
+        elif(self.pkplayer["maxxp"] == 1059860): #MSlow -100 level
+            return (((6/5) * pow(self.lvl, 3)) - (15 * pow(self.pkplayer["level"], 2)) + (100 * self.pkplayer["level"]) - 140)
+        elif(self.pkplayer["maxxp"] == 1250000): #Fast -100 level
             return (5*pow(self.lvl, 3))/4
 
     
