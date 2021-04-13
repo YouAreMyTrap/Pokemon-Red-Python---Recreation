@@ -144,13 +144,13 @@ class Pokemon_Player(Pokemon):
     def GetLevelUPNext(self):
         """Get how need for up level"""
         if(self.pkplayer["maxxp"] == 800000): #Fast -100 level
-            return (4*pow(self.lvl, 3))/5
+            return (4*pow(self.pkplayer["level"], 3))/5
         elif(self.pkplayer["maxxp"] == 1000000): #MFast -100 level
-            return pow(self.lvl, 3)
+            return pow(self.pkplayer["level"], 3)
         elif(self.pkplayer["maxxp"] == 1059860): #MSlow -100 level
-            return (((6/5) * pow(self.lvl, 3)) - (15 * pow(self.pkplayer["level"], 2)) + (100 * self.pkplayer["level"]) - 140)
+            return (((6/5) * pow(self.pkplayer["level"], 3)) - (15 * pow(self.pkplayer["level"], 2)) + (100 * self.pkplayer["level"]) - 140)
         elif(self.pkplayer["maxxp"] == 1250000): #Fast -100 level
-            return (5*pow(self.lvl, 3))/4
+            return (5*pow(self.pkplayer["level"], 3))/4
 
     
     def Action_battle(self, moviemnt):
