@@ -110,19 +110,24 @@ class Pokemon_Player(Pokemon):
                 "Speed": 45, 
                 "Friend":70
             },
-            "MOVS": { #editar
-                1: ["MissingMo.1", 10],
-                2: ["MissingMo.2", 10],
-                3: ["MissingMo.3", 10],
-                4: ["MissingMo.4", 10]
+            "MOVS": { #editar 1r name 2n pp, 3r maxpp, 4r power
+                1: ["MissingMo.1", 9,10,4],
+                2: ["-", 32,33,4],
+                3: ["-", 11,12,4],
+                4: ["-", 42,43,4]
                    }
             }
 
     def GetMov(self, id):
-        return self.pkplayer["MOVS"][id][0]
+        return self.pkplayer["MOVS"][id]
     def GetHp(self): #Haha Mateh
         """Get HP of Pokemon"""
         return math.trunc(((((self.pkplayer["base"]["HP"] + self.pkplayer["ivs"]["HP"]) + 50 + (math.sqrt(self.pkplayer["evs"]["HP"])/8)) * self.pkplayer["level"])/50) + 10)
+
+    def GetAttack(self):
+        """Get Attack of Pokemon"""
+        return math.trunc(((((self.pkplayer["base"]["Attack"] + self.pkplayer["ivs"]["Attack"]) + (math.sqrt(self.pkplayer["evs"]["Attack"])/8)) * self.pkplayer["level"])/50) + 5)
+
 
     def GetSAttack(self): #Haha Mateh
         """Get Special Attack of Pokemon"""
@@ -140,7 +145,10 @@ class Pokemon_Player(Pokemon):
         """Change Moveset of pokemon with new moviment"""
         self.pkplayer["MOVS"][id] = [mov, max]
 
-
+    def GetDamage(self, dmof = 1, enemydef =10):
+       # Falta los modificadores
+        return ((2*self.pkplayer["level"]/5 + 2) * self.GetMov(dmof)[3] * self.GetAttack()/enemydef)/50 + 2
+        pass
     def GetLevelUPNext(self):
         """Get how need for up level"""
         if(self.pkplayer["maxxp"] == 800000): #Fast -100 level

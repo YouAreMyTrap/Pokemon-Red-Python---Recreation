@@ -16,11 +16,12 @@ class Battle:
         self.RESIZE = resize
         self.Menu_Sel = {
             "Poss": 1,
-            "Menu": 0
+            "Menu": 0,
             }
         #print(Player_InGame(1).pokemon.GetHp())
 
-
+    def GetFixpos(self):
+        return self.Menu_Sel["Poss"] if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 3 if self.Menu_Sel["Poss"] == 10 else 4
     def BattleLoad(self):
         """Show/UnShow Menu"""
         self.Battle = False if self.Battle else True
@@ -48,10 +49,11 @@ class Battle:
             10: ["POKéMON","A3"],
             20: ["RUN","A4"]
             }
-
+            
+        print(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
         if MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]] == "FIGHT": 
              self.Menu_Sel["Menu"] = 1
-        print(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
+        
 
 
     def Back(self):
@@ -59,6 +61,7 @@ class Battle:
              self.Menu_Sel["Menu"] = 0
 
     def Draw(self):
+        #print(self.Menu_Sel["Poss"] if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 3 if self.Menu_Sel["Poss"] == 10 else 4)
         if self.Battle: self.print()
 
     def print(self):
@@ -72,17 +75,19 @@ class Battle:
                 "text1": [136,121,"FIGHT"],
                 "text2": [191.5,121,"BAG"],
                 "text3": [136,137.5,"POKéMON"],
-                "text4": [191.5,137.5,"RUN"]},
+                "text4": [191.5,137.5,"RUN"],
+                "text5": [0,0,""]},
             1:{
                 "Img": "mov_ui_" + str(PLAYER_FRAME),
                 1: [9,123.5],
                 2: [79,123.5],
                 10: [9,140],
                 20: [79,140],
-                "text1": [16.5,121, str(Player_InGame().pokemon[1].GetMov(1))],
-                "text2": [86,121,str(Player_InGame().pokemon[1].GetMov(2))],
-                "text3": [16.5,137.5,str(Player_InGame().pokemon[1].GetMov(3))],
-                "text4": [86,137.5,str(Player_InGame().pokemon[1].GetMov(4))]}
+                "text1": [16.5,121, str(Player_InGame().pokemon[1].GetMov(1)[0])],
+                "text2": [86,121,str(Player_InGame().pokemon[1].GetMov(2)[0])],
+                "text3": [16.5,137.5,str(Player_InGame().pokemon[1].GetMov(3)[0])],
+                "text4": [86,137.5,str(Player_InGame().pokemon[1].GetMov(4)[0])],
+                "text5": [207,122,str(Player_InGame().pokemon[1].GetMov(self.GetFixpos())[1])+ "/"+ str(Player_InGame().pokemon[1].GetMov(self.GetFixpos())[2])]}
             }
         #Imprime el backgrounds
         #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-7.png")
@@ -139,10 +144,10 @@ class Battle:
         pygame.font.init()
         
         font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
-        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text1"][2], False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text1"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text1"][1] * self.RESIZE))
-        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text2"][2], False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text2"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text2"][1] * self.RESIZE))
-        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text3"][2], False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text3"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text3"][1] * self.RESIZE))
-        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text4"][2], False, (96, 96, 96)) ,(Data[self.Menu_Sel["Menu"]]["text4"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text4"][1] * self.RESIZE))
-
+        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text1"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text1"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text1"][1] * self.RESIZE))
+        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text2"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text2"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text2"][1] * self.RESIZE))
+        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text3"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text3"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text3"][1] * self.RESIZE))
+        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text4"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text4"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text4"][1] * self.RESIZE))
+        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text5"][2], False, (32, 32, 32)) ,(Data[self.Menu_Sel["Menu"]]["text5"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text5"][1] * self.RESIZE))
         pygame.display.flip()
 

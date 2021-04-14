@@ -1,7 +1,7 @@
 from Pokemon import *
 #from
 
-#print(Pokemon_Player().GetHp())
+print(Pokemon_Player().GetDamage())
 #poke = Pokemon_Player()
 #print(poke.GetName())
 #r1int(Pokemon_Player())
