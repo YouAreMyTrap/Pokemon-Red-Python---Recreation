@@ -111,13 +111,15 @@ class Pokemon_Player(Pokemon):
                 "Friend":70
             },
             "MOVS": { #editar 1r name 2n pp, 3r maxpp, 4r power
-                1: ["MissingMo.1", 9,10,4],
-                2: ["-", 32,33,4],
-                3: ["-", 11,12,4],
-                4: ["-", 42,43,4]
+                1: ["MissingMo.1", 9,10,4,"Normal"],
+                2: ["-", 32,33,4,"Normal"],
+                3: ["-", 11,12,4,"Normal"],
+                4: ["-", 42,43,4,"Normal"]
                    }
             }
 
+    def GetName(self):
+        return (self.pkplayer["cname"], self.pkplayer["name"])
     def GetMov(self, id):
         return self.pkplayer["MOVS"][id]
     def GetHp(self): #Haha Mateh
@@ -145,10 +147,11 @@ class Pokemon_Player(Pokemon):
         """Change Moveset of pokemon with new moviment"""
         self.pkplayer["MOVS"][id] = [mov, max]
 
-    def GetDamage(self, dmof = 1, enemydef =10):
+    def GetDamage(self, dmof = 1, enemydef =[10,90]): #enemrydef [0]Def [1]SDef
        # Falta los modificadores
-        return ((2*self.pkplayer["level"]/5 + 2) * self.GetMov(dmof)[3] * self.GetAttack()/enemydef)/50 + 2
+        return (((2*self.pkplayer["level"]/5 + 2) * self.GetMov(dmof)[3] * self.CalculateA_D(self.GetMov(dmof)[4], enemydef))/50 + 2) * self.Calculate_Modifier()
         pass
+    
     def GetLevelUPNext(self):
         """Get how need for up level"""
         if(self.pkplayer["maxxp"] == 800000): #Fast -100 level
@@ -160,10 +163,55 @@ class Pokemon_Player(Pokemon):
         elif(self.pkplayer["maxxp"] == 1250000): #Fast -100 level
             return (5*pow(self.pkplayer["level"], 3))/4
 
-    
+    def CalculateA_D(self, type, enemydef):
+        """Get Value A/D of damage formula"""
+        types = {
+            "Water": [self.GetSAttack(),1],
+            "Grass": [self.GetSAttack(),1],
+            "Fire": [self.GetSAttack(),1],
+            "Ice": [self.GetSAttack(),1],
+            "Electric": [self.GetSAttack(),1],
+            "Psychic": [self.GetSAttack(),1],
+            "Dragon": [self.GetSAttack(),1],
+            "Dark": [self.GetSAttack(),1],
+            "Shadow Bolt": [self.GetSAttack(),1],
+            "Shadow Chill": [self.GetSAttack(),1],
+            "Shadow Fire": [self.GetSAttack(),1],
+            "Shadow Rave": [self.GetSAttack(),1],
+            "Shadow Storm": [self.GetSAttack(),1],
+            "Shadow Wave": [self.GetSAttack(),1],
+            
+            "Normal": [self.GetAttack(),0],
+            "Fighting ": [self.GetAttack(),0],
+            "Fying": [self.GetAttack(),0],
+            "Ground": [self.GetAttack(),0],
+            "Rock": [self.GetAttack(),0],
+            "Bug": [self.GetAttack(),0],
+            "Ghost": [self.GetAttack(),0],
+            "Poison": [self.GetAttack(),0],
+            "Steel": [self.GetAttack(),0],
+            "Shadow Blast": [self.GetAttack(),0],
+            "Shadow Blitz": [self.GetAttack(),0],
+            "Shadow Break": [self.GetAttack(),0],
+            "Shadow End": [self.GetAttack(),0],
+            "Shadow Rush": [self.GetAttack(),0]
+        }
+        return types[type][0] / enemydef[types[type][1]]
+
+    def Calculate_Modifier(self):
+        """Get Value Modifier of damage formula"""
+        Targets = 1
+        Weather = 1.5
+        random = 255/255
+        STAB = 1
+        Type = 1
+        other = 1
+        return Targets * Weather * random * STAB * Type * other
+
+
     def Action_battle(self, moviemnt):
         print("cut")
     def Action_world(self, moviemnt):
         print("cut")
     def GetMoviments(self):
-        print(self.mov)
+        pass #print(self.mov)

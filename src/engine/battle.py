@@ -6,14 +6,13 @@ from value_player import *
 
 
 
-#
-
 class Battle:
     def __init__(self, screen2, resize = 0):
         #print("Menu Loaded")
         self.Battle = False
         self.screen = screen2
         self.RESIZE = resize
+        self.curpokemon = 1
         self.Menu_Sel = {
             "Poss": 1,
             "Menu": 0,
@@ -83,11 +82,11 @@ class Battle:
                 2: [79,123.5],
                 10: [9,140],
                 20: [79,140],
-                "text1": [16.5,121, str(Player_InGame().pokemon[1].GetMov(1)[0])],
-                "text2": [86,121,str(Player_InGame().pokemon[1].GetMov(2)[0])],
-                "text3": [16.5,137.5,str(Player_InGame().pokemon[1].GetMov(3)[0])],
-                "text4": [86,137.5,str(Player_InGame().pokemon[1].GetMov(4)[0])],
-                "text5": [207,122,str(Player_InGame().pokemon[1].GetMov(self.GetFixpos())[1])+ "/"+ str(Player_InGame().pokemon[1].GetMov(self.GetFixpos())[2])]}
+                "text1": [16.5,121, str(Player_InGame().pokemon[self.curpokemon].GetMov(1)[0])],
+                "text2": [86,121,str(Player_InGame().pokemon[self.curpokemon].GetMov(2)[0])],
+                "text3": [16.5,137.5,str(Player_InGame().pokemon[self.curpokemon].GetMov(3)[0])],
+                "text4": [86,137.5,str(Player_InGame().pokemon[self.curpokemon].GetMov(4)[0])],
+                "text5": [207,122,str(Player_InGame().pokemon[self.curpokemon].GetMov(self.GetFixpos())[1])+ "/"+ str(Player_InGame().pokemon[self.curpokemon].GetMov(self.GetFixpos())[2])]}
             }
         #Imprime el backgrounds
         #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-7.png")
@@ -123,7 +122,7 @@ class Battle:
         pknemy_resized = pygame.transform.scale(pknemy, (64 * self.RESIZE, 64 * self.RESIZE))
 
         #Player
-        pklayer = pygame.image.load(parentsource +"/images/pokemons/bulbasaur/back.png")    # 384 x 365
+        pklayer = pygame.image.load(parentsource +"/images/pokemons/"+ Player_InGame().pokemon[self.curpokemon].GetName()[1] +"/back.png")    # 384 x 365
         pklayer_resized = pygame.transform.scale(pklayer, (64 * self.RESIZE, 64 * self.RESIZE))
 
         self.screen.blit(background_resized, background_resized.get_rect())

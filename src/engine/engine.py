@@ -6,7 +6,7 @@ from tilemap import *
 
 #sys.path.insert(0, os.path.abspath(os.curdir))
 from Sel_Menu import *
-from ui_battle import *
+from battle import *
 
 
 ############# LOAD GAME #############
