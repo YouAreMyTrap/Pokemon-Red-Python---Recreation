@@ -1,6 +1,7 @@
 import sqlite3
 import hashlib
 import math
+import random
 import os
 
 
@@ -70,10 +71,10 @@ class Pokemon_Pokedex:
 
 
 
-class Pokemon_Player(Pokemon):
+class Pokemon_Battle(Pokemon):
     #def __init__(self, id, name, evs, mov, hp, lvl, exp):
     def __init__(self):
-        self.pkplayer = {
+        self.pk = {
             "id":1,
             "cname":"lechuga",
             "name":"bulbasaur",
@@ -81,6 +82,7 @@ class Pokemon_Player(Pokemon):
             "exp":"0",
             "maxxp":1059860,
             "object":"None",
+            "healt": 100,
             "type": {
                 1: "Grass",
                 2: "Poison"
@@ -117,51 +119,52 @@ class Pokemon_Player(Pokemon):
                 4: ["-", 42,43,4,"Normal"]
                    }
             }
-
+    def GetHealt(self):
+        return self.pk["healt"]
     def GetName(self):
-        return (self.pkplayer["cname"], self.pkplayer["name"])
+        return (self.pk["cname"], self.pk["name"])
     def GetMov(self, id):
-        return self.pkplayer["MOVS"][id]
+        return self.pk["MOVS"][id]
     def GetHp(self): #Haha Mateh
         """Get HP of Pokemon"""
-        return math.trunc(((((self.pkplayer["base"]["HP"] + self.pkplayer["ivs"]["HP"]) + 50 + (math.sqrt(self.pkplayer["evs"]["HP"])/8)) * self.pkplayer["level"])/50) + 10)
+        return math.trunc(((((self.pk["base"]["HP"] + self.pk["ivs"]["HP"]) + 50 + (math.sqrt(self.pk["evs"]["HP"])/8)) * self.pk["level"])/50) + 10)
 
     def GetAttack(self):
         """Get Attack of Pokemon"""
-        return math.trunc(((((self.pkplayer["base"]["Attack"] + self.pkplayer["ivs"]["Attack"]) + (math.sqrt(self.pkplayer["evs"]["Attack"])/8)) * self.pkplayer["level"])/50) + 5)
+        return math.trunc(((((self.pk["base"]["Attack"] + self.pk["ivs"]["Attack"]) + (math.sqrt(self.pk["evs"]["Attack"])/8)) * self.pk["level"])/50) + 5)
 
 
     def GetSAttack(self): #Haha Mateh
         """Get Special Attack of Pokemon"""
-        return math.trunc(((((self.pkplayer["base"]["Special Attack"] + self.pkplayer["ivs"]["Special"]) + (math.sqrt(self.pkplayer["evs"]["Special"])/8)) * self.pkplayer["level"])/50) + 5)
+        return math.trunc(((((self.pk["base"]["Special Attack"] + self.pk["ivs"]["Special"]) + (math.sqrt(self.pk["evs"]["Special"])/8)) * self.pk["level"])/50) + 5)
 
     def GetSDefense(self): #Haha Mateh
         """Get Special Defense of Pokemon"""
-        return math.trunc(((((self.pkplayer["base"]["Special Defense"] + self.pkplayer["ivs"]["Special"]) + (math.sqrt(self.pkplayer["evs"]["Special"])/8)) * self.pkplayer["level"])/50) + 5)
+        return math.trunc(((((self.pk["base"]["Special Defense"] + self.pk["ivs"]["Special"]) + (math.sqrt(self.pk["evs"]["Special"])/8)) * self.pk["level"])/50) + 5)
 
     def GetSpeed(self): #Haha Mateh
         """Get Speed of Pokemon"""
-        return math.trunc(((((self.pkplayer["base"]["Speed"] + self.pkplayer["ivs"]["Speed"]) + (math.sqrt(self.pkplayer["evs"]["Speed"])/8)) * self.pkplayer["level"])/50) + 5)
+        return math.trunc(((((self.pk["base"]["Speed"] + self.pk["ivs"]["Speed"]) + (math.sqrt(self.pk["evs"]["Speed"])/8)) * self.pk["level"])/50) + 5)
 
     def ChangeMovSet(self, id, mov, max):
         """Change Moveset of pokemon with new moviment"""
-        self.pkplayer["MOVS"][id] = [mov, max]
+        self.pk["MOVS"][id] = [mov, max]
 
-    def GetDamage(self, dmof = 1, enemydef =[10,90]): #enemrydef [0]Def [1]SDef
+    def GetDamage(self, dmof = 1, enemydef =[10,90], etype = "Normal"): #enemrydef [0]Def [1]SDef
        # Falta los modificadores
-        return (((2*self.pkplayer["level"]/5 + 2) * self.GetMov(dmof)[3] * self.CalculateA_D(self.GetMov(dmof)[4], enemydef))/50 + 2) * self.Calculate_Modifier()
+        return (((2*self.pk["level"]/5 + 2) * self.GetMov(dmof)[3] * self.CalculateA_D(self.GetMov(dmof)[4], enemydef))/50 + 2) * self.Calculate_Modifier(self.GetMov(dmof)[4], etype, ["Water","Fire"])
         pass
     
     def GetLevelUPNext(self):
         """Get how need for up level"""
-        if(self.pkplayer["maxxp"] == 800000): #Fast -100 level
-            return (4*pow(self.pkplayer["level"], 3))/5
-        elif(self.pkplayer["maxxp"] == 1000000): #MFast -100 level
-            return pow(self.pkplayer["level"], 3)
-        elif(self.pkplayer["maxxp"] == 1059860): #MSlow -100 level
-            return (((6/5) * pow(self.pkplayer["level"], 3)) - (15 * pow(self.pkplayer["level"], 2)) + (100 * self.pkplayer["level"]) - 140)
-        elif(self.pkplayer["maxxp"] == 1250000): #Fast -100 level
-            return (5*pow(self.pkplayer["level"], 3))/4
+        if(self.pk["maxxp"] == 800000): #Fast -100 level
+            return (4*pow(self.pk["level"], 3))/5
+        elif(self.pk["maxxp"] == 1000000): #MFast -100 level
+            return pow(self.pk["level"], 3)
+        elif(self.pk["maxxp"] == 1059860): #MSlow -100 level
+            return (((6/5) * pow(self.pk["level"], 3)) - (15 * pow(self.pk["level"], 2)) + (100 * self.pk["level"]) - 140)
+        elif(self.pk["maxxp"] == 1250000): #Fast -100 level
+            return (5*pow(self.pk["level"], 3))/4
 
     def CalculateA_D(self, type, enemydef):
         """Get Value A/D of damage formula"""
@@ -198,17 +201,129 @@ class Pokemon_Player(Pokemon):
         }
         return types[type][0] / enemydef[types[type][1]]
 
-    def Calculate_Modifier(self):
+    def Calculate_Modifier(self, mov, etype, stats):
         """Get Value Modifier of damage formula"""
-        Targets = 1
-        Weather = 1.5
-        random = 255/255
-        STAB = 1
-        Type = 1
-        other = 1
-        return Targets * Weather * random * STAB * Type * other
+        st = set(stats)
+        tplayer = set(self.pk["type"])
+        Weather = 1.5 if (("Water" == mov) and ("Rain"in st) or ("Fire" == mov) and ("Harsh sunlight"in st)) else 0.5 if (("Water" == mov) and ("Harsh sunlight"in st) or ("Fire" == mov) and ("Rain"in st)) else 1
+        Targets = 0.75
+        randoms = random.randint(217,255)/255
+        STAB = 1.5 if mov in tplayer else 1
+        Type = self.type_effectiveness(mov, etype)
+        #print((Type))
+        return Targets * Weather * randoms * STAB * Type
 
-
+    def  type_effectiveness(self, ptype, etype):
+        types= {
+            "Normal":{
+                "Rock" : 0.5,
+                "Ghost": 0
+            },
+            "Fire":{
+                "Fire" : 0.5,
+                "Water": 0.5,
+                "Grass": 2,
+                "Ice": 2,
+                "Bug": 2,
+                "Rock": 0.5,
+                "Dragon": 0.5
+            },
+            "Water":{
+                "Rock" : 0.5,
+                "Ghost": 0
+            },
+            "Electric":{
+                "Water" : 2,
+                "Water": 0.5,
+                "Grass": 0.5,
+                "Ground": 2,
+                "Rock": 2,
+                "Dragon": 0.5
+            },
+            "Grass":{
+                "Fire" : 0.5,
+                "Water": 2,
+                "Grass": 0.5,
+                "Poison": 0.5,
+                "Ground": 2,
+                "Flying": 0.5,
+                "Bug": 0.5,
+                "Rock": 2,
+                "Dragon": 0.5
+            },
+            "Ice":{
+                "Water" : 0.5,
+                "Grass": 2,
+                "Ice": 0.5,
+                "Flying": 2,
+                "Rock": 2,
+                "Dragon": 2
+            },
+            "Fighting":{
+                "Normal" : 2,
+                "Ice": 2,
+                "Poison": 0.5,
+                "Flying": 0.5,
+                "Psychic": 0.5,
+                "Bug": 0.5,
+                "Rock": 2,
+                "Ghost": 0
+            },
+            "Poison":{
+                "Grass" : 2,
+                "Poison": 0.5,
+                "Ground": 0.5,
+                "Bug": 2,
+                "Rock": 0.5,
+                "Ghost": 0.5
+            },
+            "Ground":{
+                "Fire" : 2,
+                "Electric": 2,
+                "Ground": 0.5,
+                "Grass": 0.5,
+                "Poison": 2,
+                "Flying": 0,
+                "Bug": 0.5,
+                "Rock": 2
+            },
+            "Flying":{
+                "Electric" : 0.5,
+                "Grass": 2,
+                "Fighting": 0.5,
+                "Bug": 2,
+                "Rock": 2
+            },
+            "Psychic":{
+                "Fighting" : 2,
+                "Poison": 2,
+                "Psychic": 0.5
+            },
+            "Bug":{
+                "Fire" : 0.5,
+                "Grass": 2,
+                "Fighting": 0.5,
+                "Poison": 2,
+                "Flying": 0.5,
+                "Psychic": 2,
+                "Ghost": 0.5
+            },
+            "Rock":{
+                "Fire" : 2,
+                "Ice": 2,
+                "Fighting": 0.5,
+                "Ground": 0.5,
+                "Flying": 2,
+                "Bug": 2
+            },
+            "Ghost":{
+                "Ghost" : 2
+            },
+            "Dragon":{
+                "Dragon" : 2
+            }
+        }
+        return types[ptype][etype] if etype in types[ptype] else 1
     def Action_battle(self, moviemnt):
         print("cut")
     def Action_world(self, moviemnt):

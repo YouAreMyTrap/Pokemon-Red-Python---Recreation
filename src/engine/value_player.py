@@ -1,7 +1,7 @@
 from Pokemon import *
 #from
 
-print(Pokemon_Player().GetDamage())
+#print(Pokemon_Player().GetDamage())
 #poke = Pokemon_Player()
 #print(poke.GetName())
 #r1int(Pokemon_Player())
@@ -17,12 +17,18 @@ class PSettings:
 class Player_InGame:
     def __init__(self, money=0):
         self.pokemon = {
-            1: Pokemon_Player(),
-            2: Pokemon_Player(),
-            3: Pokemon_Player(),
-            4: Pokemon_Player(),
-            5: Pokemon_Player(),
-            6: Pokemon_Player()
+            1: Pokemon_Battle(),
+            2: Pokemon_Battle(),
+            3: Pokemon_Battle(),
+            4: Pokemon_Battle(),
+            5: Pokemon_Battle(),
+            6: Pokemon_Battle()
             }
         self.Money = money
         self.Name = "Error"
+    def GetStartPokemon(self):
+        i = 1
+        while i <= 6:
+            if not Player_InGame().pokemon[i].GetHealt() == 0:
+                return i
+            i += 1

@@ -3,6 +3,7 @@ import os
 from settings import *
 
 from value_player import *
+from enemy import * 
 
 
 
@@ -12,12 +13,15 @@ class Battle:
         self.Battle = False
         self.screen = screen2
         self.RESIZE = resize
-        self.curpokemon = 1
+        self.Player = Player_InGame()
+        self.Enemy = Enemy_InGame()
+        self.curpokemon = self.Player.GetStartPokemon()
+        self.curpokemon2 = 1
         self.Menu_Sel = {
             "Poss": 1,
             "Menu": 0,
             }
-        #print(Player_InGame(1).pokemon.GetHp())
+        #print(Player_InGame(self.curpokemon).pokemon.GetHp())
 
     def GetFixpos(self):
         return self.Menu_Sel["Poss"] if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 3 if self.Menu_Sel["Poss"] == 10 else 4
@@ -43,18 +47,31 @@ class Battle:
             0 - Menu 1
             1- Menu 2"""
         MenuInput = {
-            1: ["FIGHT","A1"],
-            2: ["BAG","A2"],
-            10: ["POKéMON","A3"],
-            20: ["RUN","A4"]
+            1: ["FIGHT",1],
+            2: ["BAG",2],
+            10: ["POKéMON",3],
+            20: ["RUN",4]
             }
             
-        print(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
+        #print(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
+
+        if isinstance(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], int) and not str(self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[0]) == "-": 
+            #print(self.Player.pokemon[1].GetHealt())
+            print(self.WhoFirst())
+            #self.Player.GetStartPokemon()
+            pass
+            #print(self.Player.pokemon[1].GetDamage((MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])))
+
+
         if MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]] == "FIGHT": 
              self.Menu_Sel["Menu"] = 1
         
+        
 
-
+    def WhoFirst(self):
+       """Select Who pokemon attack first"""
+       return  random.choice(["Enemy", "Player"]) if self.Player.pokemon[self.curpokemon].GetSpeed() == self.Enemy.pokemon[self.curpokemon2].GetSpeed() else "Player" if self.Player.pokemon[self.curpokemon].GetSpeed() > self.Enemy.pokemon[self.curpokemon2].GetSpeed() else "Enemy"
+        
     def Back(self):
         if self.Menu_Sel["Menu"] == 1: 
              self.Menu_Sel["Menu"] = 0
@@ -82,11 +99,11 @@ class Battle:
                 2: [79,123.5],
                 10: [9,140],
                 20: [79,140],
-                "text1": [16.5,121, str(Player_InGame().pokemon[self.curpokemon].GetMov(1)[0])],
-                "text2": [86,121,str(Player_InGame().pokemon[self.curpokemon].GetMov(2)[0])],
-                "text3": [16.5,137.5,str(Player_InGame().pokemon[self.curpokemon].GetMov(3)[0])],
-                "text4": [86,137.5,str(Player_InGame().pokemon[self.curpokemon].GetMov(4)[0])],
-                "text5": [207,122,str(Player_InGame().pokemon[self.curpokemon].GetMov(self.GetFixpos())[1])+ "/"+ str(Player_InGame().pokemon[self.curpokemon].GetMov(self.GetFixpos())[2])]}
+                "text1": [16.5,121, str(self.Player.pokemon[self.curpokemon].GetMov(1)[0])],
+                "text2": [86,121,str(self.Player.pokemon[self.curpokemon].GetMov(2)[0])],
+                "text3": [16.5,137.5,str(self.Player.pokemon[self.curpokemon].GetMov(3)[0])],
+                "text4": [86,137.5,str(self.Player.pokemon[self.curpokemon].GetMov(4)[0])],
+                "text5": [207,122,str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[1])+ "/"+ str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[2])]}
             }
         #Imprime el backgrounds
         #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-7.png")
@@ -118,11 +135,11 @@ class Battle:
 
 
         #####POKEMONS#####
-        pknemy = pygame.image.load(parentsource +"/images/pokemons/caterpie/front.png")    # 384 x 365
+        pknemy = pygame.image.load(parentsource +"/images/pokemons/"+ self.Enemy.pokemon[self.curpokemon2].GetName()[1] +"/front.png")    # 384 x 365
         pknemy_resized = pygame.transform.scale(pknemy, (64 * self.RESIZE, 64 * self.RESIZE))
 
         #Player
-        pklayer = pygame.image.load(parentsource +"/images/pokemons/"+ Player_InGame().pokemon[self.curpokemon].GetName()[1] +"/back.png")    # 384 x 365
+        pklayer = pygame.image.load(parentsource +"/images/pokemons/"+ self.Player.pokemon[self.curpokemon].GetName()[1] +"/back.png")    # 384 x 365
         pklayer_resized = pygame.transform.scale(pklayer, (64 * self.RESIZE, 64 * self.RESIZE))
 
         self.screen.blit(background_resized, background_resized.get_rect())
