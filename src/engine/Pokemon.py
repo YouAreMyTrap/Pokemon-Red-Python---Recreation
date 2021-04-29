@@ -82,7 +82,7 @@ class Pokemon_Battle(Pokemon):
             "exp":"0",
             "maxxp":1059860,
             "object":"None",
-            "healt": 100,
+            "healt": 38,
             "type": {
                 1: "Grass",
                 2: "Poison"
@@ -113,7 +113,7 @@ class Pokemon_Battle(Pokemon):
                 "Friend":70
             },
             "MOVS": { #editar 1r name 2n pp, 3r maxpp, 4r power
-                1: ["MissingMo.1", 9,10,4,"Normal"],
+                1: ["MissingMo.1", 9,10,4,"Flying"],
                 2: ["-", 32,33,4,"Normal"],
                 3: ["-", 11,12,4,"Normal"],
                 4: ["-", 42,43,4,"Normal"]
@@ -121,6 +121,24 @@ class Pokemon_Battle(Pokemon):
             }
     def GetHealt(self):
         return self.pk["healt"]
+
+
+    def ChangePP(self, mov, action, n = 1):
+        """Change PP Value 
+            mov = id of mov
+            action: rv/sum
+            n: number of actions
+        """
+        if action == "rv":
+            self.pk["MOVS"][mov][1] -= n
+        elif action == "sum":
+            self.pk["MOVS"][mov][1] -= n
+            
+    def RemoveHealt(self, rv):
+        print(self.pk["healt"])
+        self.pk["healt"] += 0 if 0 >= rv else -rv
+        print(self.pk["healt"])
+
     def GetName(self):
         return (self.pk["cname"], self.pk["name"])
     def GetMov(self, id):
@@ -133,6 +151,9 @@ class Pokemon_Battle(Pokemon):
         """Get Attack of Pokemon"""
         return math.trunc(((((self.pk["base"]["Attack"] + self.pk["ivs"]["Attack"]) + (math.sqrt(self.pk["evs"]["Attack"])/8)) * self.pk["level"])/50) + 5)
 
+    def GetDefense(self): #Haha Mateh
+        """Get Defense of Pokemon"""
+        return math.trunc(((((self.pk["base"]["Defense"] + self.pk["ivs"]["Defense"]) + (math.sqrt(self.pk["evs"]["Defense"])/8)) * self.pk["level"])/50) + 5)
 
     def GetSAttack(self): #Haha Mateh
         """Get Special Attack of Pokemon"""
@@ -150,9 +171,9 @@ class Pokemon_Battle(Pokemon):
         """Change Moveset of pokemon with new moviment"""
         self.pk["MOVS"][id] = [mov, max]
 
-    def GetDamage(self, dmof = 1, enemydef =[10,90], etype = "Normal"): #enemrydef [0]Def [1]SDef
+    def GetDamage(self, dmof, enemy): #enemrydef [0]Def [1]SDef
        # Falta los modificadores
-        return (((2*self.pk["level"]/5 + 2) * self.GetMov(dmof)[3] * self.CalculateA_D(self.GetMov(dmof)[4], enemydef))/50 + 2) * self.Calculate_Modifier(self.GetMov(dmof)[4], etype, ["Water","Fire"])
+        return (((2*self.pk["level"]/5 + 2) * self.GetMov(dmof)[3] * self.CalculateA_D(self.GetMov(dmof)[4], [enemy.GetDefense(),enemy.GetSDefense()]))/50 + 2) * self.Calculate_Modifier(self.GetMov(dmof)[4], enemy.pk["type"], ["Water","Fire"])
         pass
     
     def GetLevelUPNext(self):
@@ -186,7 +207,7 @@ class Pokemon_Battle(Pokemon):
             
             "Normal": [self.GetAttack(),0],
             "Fighting ": [self.GetAttack(),0],
-            "Fying": [self.GetAttack(),0],
+            "Flying": [self.GetAttack(),0],
             "Ground": [self.GetAttack(),0],
             "Rock": [self.GetAttack(),0],
             "Bug": [self.GetAttack(),0],
@@ -323,7 +344,9 @@ class Pokemon_Battle(Pokemon):
                 "Dragon" : 2
             }
         }
-        return types[ptype][etype] if etype in types[ptype] else 1
+        type1 = types[ptype][etype[1]] if etype[1] in types[ptype] else 1
+        type2 = types[ptype][etype[2]] if etype[2] in types[ptype] else 1
+        return type1 if type1 >= type2 else type2
     def Action_battle(self, moviemnt):
         print("cut")
     def Action_world(self, moviemnt):

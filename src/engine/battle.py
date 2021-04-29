@@ -57,9 +57,57 @@ class Battle:
 
         if isinstance(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], int) and not str(self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[0]) == "-": 
             #print(self.Player.pokemon[1].GetHealt())
-            print(self.WhoFirst())
+            #print(self.WhoFirst())
+
+
+
+
+            damage = self.Player.pokemon[1].GetDamage(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], self.Enemy.pokemon[self.curpokemon2])
+                
+            #CREAR IA QUE ELIJA QUE MOVIMIENTOS VA MEJOR, AHORA SOLO SELECIONA EL MISMO QUE EL JUGADOR
+            damage2 = self.Enemy.pokemon[1].GetDamage(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], self.Player.pokemon[self.curpokemon])
+            
+            if self.WhoFirst() == "Player" and not self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0:
+                
+                self.Enemy.pokemon[self.curpokemon2].RemoveHealt(damage)
+                self.Player.pokemon[self.curpokemon].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
+
+                #print(self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
+                
+                if not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Enemy.pokemon[self.curpokemon2].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1]  == 0:
+                    #print("2")
+                    self.Player.pokemon[self.curpokemon].RemoveHealt(damage2)
+                    self.Enemy.pokemon[self.curpokemon2].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
+                    #print(self.Player.Enemy[self.curpokemon2].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
+
+            else:
+                print("SAsd")
+                self.Player.pokemon[self.curpokemon].RemoveHealt(damage2)
+                self.Enemy.pokemon[self.curpokemon2].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
+                #print(self.Player.Enemy[self.curpokemon2].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
+
+                if not self.Player.pokemon[self.curpokemon].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0:
+                    #print("3")
+                    self.Enemy.pokemon[self.curpokemon2].RemoveHealt(damage)
+                    self.Player.pokemon[self.curpokemon].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
+                   # print(self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
+           
+           
+           
+            #print(self.Enemy.pokemon[1])
+            
+            #print(damage)
+            print("""
+                Player: %s
+                    Healt: %i
+                    Max Healt: %i
+            
+                Enemy: %s
+                    Healt: %i
+                    Max Healt: %i
+            
+            """%(self.Player.pokemon[1].GetName(),self.Player.pokemon[1].GetHealt(),self.Player.pokemon[1].GetHp(),self.Enemy.pokemon[1].GetName(),self.Enemy.pokemon[1].GetHealt(),self.Enemy.pokemon[1].GetHp()))
             #self.Player.GetStartPokemon()
-            pass
             #print(self.Player.pokemon[1].GetDamage((MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])))
 
 
