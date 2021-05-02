@@ -65,6 +65,7 @@ class Pokemon_Pokedex:
         self.PAW = 0
         self.AREA = 0
         self.IMAGE_HEIGHT = 0
+
     def GetPokedex_Pokemon(self, name): 
         """Get info of pokemon selected"""
         return True
@@ -113,15 +114,15 @@ class Pokemon_Battle(Pokemon):
                 "Friend":70
             },
             "MOVS": { #editar 1r name 2n pp, 3r maxpp, 4r power
-                1: ["MissingMo.1", 9,10,4,"Flying"],
+                1: ["MissingMo.1", 19,10,4,"Flying"],
                 2: ["-", 32,33,4,"Normal"],
                 3: ["-", 11,12,4,"Normal"],
                 4: ["-", 42,43,4,"Normal"]
                    }
             }
     def GetHealt(self):
+        """Get current heal of pokemon"""
         return self.pk["healt"]
-
 
     def ChangePP(self, mov, action, n = 1):
         """Change PP Value 
@@ -132,12 +133,16 @@ class Pokemon_Battle(Pokemon):
         if action == "rv":
             self.pk["MOVS"][mov][1] -= n
         elif action == "sum":
-            self.pk["MOVS"][mov][1] -= n
+            self.pk["MOVS"][mov][1] += n
             
     def RemoveHealt(self, rv):
-        print(self.pk["healt"])
-        self.pk["healt"] += 0 if 0 >= rv else -rv
-        print(self.pk["healt"])
+        """Remove healt of pokemon"""     
+        if not self.pk["healt"] <= 0:
+            self.pk["healt"] -= int(rv)
+
+        if self.pk["healt"] <= 0:
+            self.pk["healt"] = 0
+            print("You Kill this pokemon")
 
     def GetName(self):
         return (self.pk["cname"], self.pk["name"])
@@ -353,3 +358,5 @@ class Pokemon_Battle(Pokemon):
         print("cut")
     def GetMoviments(self):
         pass #print(self.mov)
+
+    

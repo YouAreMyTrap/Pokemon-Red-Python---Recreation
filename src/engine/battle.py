@@ -67,7 +67,7 @@ class Battle:
             #CREAR IA QUE ELIJA QUE MOVIMIENTOS VA MEJOR, AHORA SOLO SELECIONA EL MISMO QUE EL JUGADOR
             damage2 = self.Enemy.pokemon[1].GetDamage(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], self.Player.pokemon[self.curpokemon])
             
-            if self.WhoFirst() == "Player" and not self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0:
+            if self.WhoFirst() == "Player" and not self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0 and not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetHealt() == 0:
                 
                 self.Enemy.pokemon[self.curpokemon2].RemoveHealt(damage)
                 self.Player.pokemon[self.curpokemon].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
@@ -80,8 +80,7 @@ class Battle:
                     self.Enemy.pokemon[self.curpokemon2].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
                     #print(self.Player.Enemy[self.curpokemon2].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
 
-            else:
-                print("SAsd")
+            elif not self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0  and not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetHealt() == 0:
                 self.Player.pokemon[self.curpokemon].RemoveHealt(damage2)
                 self.Enemy.pokemon[self.curpokemon2].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
                 #print(self.Player.Enemy[self.curpokemon2].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
@@ -91,7 +90,10 @@ class Battle:
                     self.Enemy.pokemon[self.curpokemon2].RemoveHealt(damage)
                     self.Player.pokemon[self.curpokemon].ChangePP(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
                    # print(self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
-           
+            else:
+                print("No pp")
+                print("No hp")
+
            
            
             #print(self.Enemy.pokemon[1])
@@ -128,7 +130,16 @@ class Battle:
         #print(self.Menu_Sel["Poss"] if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 3 if self.Menu_Sel["Poss"] == 10 else 4)
         if self.Battle: self.print()
 
+
+    def Health_Bar(self, id, max, min):
+        pass
     def print(self):
+        MenuInput = {
+            1: 1,
+            2: 2,
+            10: 3,
+            20: 4
+            }
         Data = {
             0: {
                 "Img": "ui_" + str(PLAYER_FRAME),
@@ -140,7 +151,8 @@ class Battle:
                 "text2": [191.5,121,"BAG"],
                 "text3": [136,137.5,"POKéMON"],
                 "text4": [191.5,137.5,"RUN"],
-                "text5": [0,0,""]},
+                "text5": [0,0,""],
+                "text6":""},
             1:{
                 "Img": "mov_ui_" + str(PLAYER_FRAME),
                 1: [9,123.5],
@@ -151,7 +163,8 @@ class Battle:
                 "text2": [86,121,str(self.Player.pokemon[self.curpokemon].GetMov(2)[0])],
                 "text3": [16.5,137.5,str(self.Player.pokemon[self.curpokemon].GetMov(3)[0])],
                 "text4": [86,137.5,str(self.Player.pokemon[self.curpokemon].GetMov(4)[0])],
-                "text5": [207,122,str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[1])+ "/"+ str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[2])]}
+                "text5": [207,122,str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[1])+ "/"+ str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[2])],
+                "text6": "TYPE/" + str(self.Player.pokemon[self.curpokemon].GetMov(MenuInput[self.Menu_Sel["Poss"]])[4]).upper()}
             }
         #Imprime el backgrounds
         #background = pygame.image.load("C:/Users\/Pink/Documents/Pokemon-Red-Python---Recreation/Programs/Gba Emu/Pokemon - Edicion Rojo Fuego (Spain)-7.png")
@@ -207,11 +220,24 @@ class Battle:
         #Imprime el texto
         pygame.font.init()
         
+        
+        
         font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
+        #font2 = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
+        
+        #Text panel interact
         self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text1"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text1"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text1"][1] * self.RESIZE))
         self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text2"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text2"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text2"][1] * self.RESIZE))
         self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text3"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text3"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text3"][1] * self.RESIZE))
         self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text4"][2], False, (72, 72, 72)) ,(Data[self.Menu_Sel["Menu"]]["text4"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text4"][1] * self.RESIZE))
         self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text5"][2], False, (32, 32, 32)) ,(Data[self.Menu_Sel["Menu"]]["text5"][0] * self.RESIZE,Data[self.Menu_Sel["Menu"]]["text5"][1] * self.RESIZE))
+        
+        
+        #Text panel healt
+        self.screen.blit(font.render(str(self.Player.pokemon[self.curpokemon].pk["healt"]) + "/ "+ str(self.Player.pokemon[self.curpokemon].GetHp()), False, (32, 32, 32)) ,(193 * self.RESIZE, 94.5 * self.RESIZE))
+        self.screen.blit(font.render(self.Player.pokemon[self.curpokemon].pk["cname"], False, (32, 32, 32)) ,(140 * self.RESIZE, 75 * self.RESIZE))
+        self.screen.blit(font.render(Data[self.Menu_Sel["Menu"]]["text6"], False, (32, 32, 32)) ,(167 * self.RESIZE, 137.5 * self.RESIZE))
+        
+        
         pygame.display.flip()
 
