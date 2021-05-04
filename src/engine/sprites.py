@@ -27,8 +27,9 @@ class Player(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(YELLOW)
+        self.image = game.player_img
+        # self.image = pg.Surface((TILESIZE, TILESIZE))
+        # self.image.fill(YELLOW)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y

@@ -27,25 +27,12 @@ class Game:
         
 
     def load_data(self):
-        print(parentsource)
-        parentDirectory = os.path.abspath(os.curdir)
-        #print(parentDirectory)
-        img_folder = os.path.join(parentDirectory, 'src')
-        self.map = Map(os.path.join(parentDirectory, 'maps/map.txt'))
+        map_folder = os.path.join(parentsource, 'maps')
+        self.map = TiledMap(os.path.join(map_folder, 'palet_town.tmx'))
+        self.map_img = self.map.make_map()
+        self.map_rect = self.map_img.get_rect()
+        self.player_img = pg.image.load(os.path.join(s_walk, (P_GENDER + "walk_front_f1" + IMG_EXTENSION)))
 
-        
-        #parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-        ## load map file
-        #map_folder = os.path.join(parentDirectory, 'maps')
-        #self.map = Map(os.path.abspath(os.path.join(map_folder, 'map.txt')))
-        #
-        ## load player folder
-        #player_folder = os.path.abspath(os.path.join(parentDirectory, 'images/sprite'))
-        #
-        ## load player sprite
-        #Sel_P_Sprite = os.path.abspath(os.path.join(player_folder, 'boy/walk/ss_walk_side.png'))
-        #
-        #self.spritesheet = Spritesheet(os.path.join(player_folder, PLAYER_SPRITE))
 
 
     def new(self):
@@ -53,12 +40,11 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.player = Player(self, 10, 10)
-        for row, tiles in enumerate(self.map.data): # get all data from map
-            for col, tile in enumerate(tiles):
-                if tile == "1":                     # all "1" in data file will spawn a wall
-                    Wall(self, col, row)
-        self.camera = Camera(self.map.width, self.map.height)   # set "camera" for scrolling screen
-
+        # for row, tiles in enumerate(self.map.data):  # get all data from map
+        #     for col, tile in enumerate(tiles):
+        #         if tile == "1":  # all "1" in data file will spawn a wall
+        #             Wall(self, col, row)
+        self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screen
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
@@ -67,8 +53,6 @@ class Game:
             self.update()
             self.draw()
             self.events()
-            
-
 
     def quit(self):
         pg.quit()
@@ -86,8 +70,10 @@ class Game:
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
-        self.screen.fill(BGCOLOR)
-        self.draw_grid()
+        pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
+        # self.screen.fill(BGCOLOR)
+        self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
+        # self.draw_grid()
         for sprite  in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
             
@@ -100,9 +86,8 @@ class Game:
         
         # catch all events here
         for event in pg.event.get(): # z=b x=a a=sel s=op
-            if event.type == pg.QUIT: self.quxit()  
-            
-            if event.type == pg.KEYDOWN:  
+            if event.type == pg.QUIT: self.quit()
+            if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE: self.quit()
 
                 if event.key == pg.K_s and not self.Battle.Battle:
