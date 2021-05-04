@@ -8,11 +8,12 @@ from enemy import *
 
 
 class Battle:
-    def __init__(self, screen2, resize = 0):
+    def __init__(self, screen2, o_Pokemon, resize = 0):
         #print("Menu Loaded")
         self.Battle = False
         self.screen = screen2
         self.RESIZE = resize
+        self.o_pokemon = o_Pokemon
         self.Player = Player_InGame()
         self.Enemy = Enemy_InGame()
         self.curpokemon = self.Player.GetStartPokemon()
@@ -53,18 +54,8 @@ class Battle:
                 "text3": [16.5,137.5,str(self.Player.pokemon[self.curpokemon].GetMov(3)[0])],
                 "text4": [86,137.5,str(self.Player.pokemon[self.curpokemon].GetMov(4)[0])],
                 "text5": [207,122,str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[1])+ "/"+ str(self.Player.pokemon[self.curpokemon].GetMov(self.GetFixpos())[2])],
-                "text6": "TYPE/" + str(self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]])[4]).upper()},
-                
-            3: {
-                "Img": "ui_" + str(PLAYER_FRAME),
-                "pb": ["open", "close"],
-                "pbposs": [0, [88, 9, 1], [88, 33, 2], [88, 57, 3], [88, 81, 4], [88, 105, 5]],
-                "text1": [136,121,"FIGHT"],
-                "text2": [191.5,121,"BAG"],
-                "text3": [136,137.5,"POKéMON"],
-                "text4": [191.5,137.5,"RUN"],
-                "text5": [0,0,""],
-                "text6":""}
+                "text6": "TYPE/" + str(self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]])[4]).upper()}
+
         }
         #print(Player_InGame(self.curpokemon).pokemon.GetHp())
 
@@ -74,57 +65,21 @@ class Battle:
         """Show/UnShow Menu"""
         self.Battle = False if self.Battle else True
         
-    def BattleUP(self):
+    def UP(self):
         """Move Arrow to DOWN"""
-        if self.Menu_Sel["Menu"] == 1 or self.Menu_Sel["Menu"] == 0:
-            self.Menu_Sel["Poss"] = 1 if (self.Menu_Sel["Poss"] == 10 or self.Menu_Sel["Poss"] == 1) else 2
-        else:
-            if self.Menu_Sel["Poss"] == 10:
-                self.Menu_Sel["Poss"] = 12
-                
-            if self.Menu_Sel["Poss"] == 11:
-                self.Menu_Sel["Poss"] = self.pokemons
-                
-            if self.Menu_Sel["Poss"] == 1:
-                self.Menu_Sel["Poss"] = 11
-                
-            if self.Menu_Sel["Poss"] > 1:
-                self.Menu_Sel["Poss"] -= 1
-                
+        self.Menu_Sel["Poss"] = 1 if (self.Menu_Sel["Poss"] == 10 or self.Menu_Sel["Poss"] == 1) else 2
 
-
-
-    def BattleDown(self):
+    def Down(self):
         """Move Arrow to DOWN"""
-        if self.Menu_Sel["Menu"] == 1 or self.Menu_Sel["Menu"] == 0:
-            self.Menu_Sel["Poss"] = 10 if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 10) else 20
-        else:
-            if self.Menu_Sel["Poss"] == 10:
-                self.Menu_Sel["Poss"] = 0
-                
-            if self.Menu_Sel["Poss"] == 11:
-                self.Menu_Sel["Poss"] = 10
+        self.Menu_Sel["Poss"] = 10 if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 10) else 20
 
-            if self.Menu_Sel["Poss"] == self.pokemons -1:
-                self.Menu_Sel["Poss"] = 11
-
-            if self.Menu_Sel["Poss"] < self.pokemons -1:
-                self.Menu_Sel["Poss"] += 1
-                
-
-
-    def BattleLEFT(self):
+    def LEFT(self):
         """Move Arrow to RIGHT"""
-        if self.Menu_Sel["Menu"] == 1 or self.Menu_Sel["Menu"] == 0:
-            self.Menu_Sel["Poss"] = 1 if (self.Menu_Sel["Poss"] == 2 or self.Menu_Sel["Poss"] == 1) else 10
-        else:
-            self.Menu_Sel["Poss"] = 10
-    def BattleRIGHT(self):
+        self.Menu_Sel["Poss"] = 1 if (self.Menu_Sel["Poss"] == 2 or self.Menu_Sel["Poss"] == 1) else 10
+
+    def RIGHT(self):
         """Move Arrow to RIGHT"""
-        if self.Menu_Sel["Menu"] == 1 or self.Menu_Sel["Menu"] == 0:
-            self.Menu_Sel["Poss"] = 2 if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 20
-        else:
-            self.Menu_Sel["Poss"] = 1
+        self.Menu_Sel["Poss"] = 2 if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 20
 
     def Sel(self):
         """Load menu selection
@@ -215,7 +170,6 @@ class Battle:
              self.Menu_Sel["Poss"] = 1
         
         
-
     def WhoFirst(self):
        """Select Who pokemon attack first"""
        return  random.choice(["Enemy", "Player"]) if self.Player.pokemon[self.curpokemon].GetSpeed() == self.Enemy.pokemon[self.curpokemon2].GetSpeed() else "Player" if self.Player.pokemon[self.curpokemon].GetSpeed() > self.Enemy.pokemon[self.curpokemon2].GetSpeed() else "Enemy"
@@ -234,13 +188,8 @@ class Battle:
     def Health_Bar(self, id, max, min):
         pass
 
-    
     def print(self):
-        
-        
         pygame.font.init()
-        
-        
         
         font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
         #Imprime el backgrounds
@@ -314,44 +263,7 @@ class Battle:
             self.screen.blit(font.render(self.Data[self.Menu_Sel["Menu"]]["text6"], False, (32, 32, 32)) ,(167 * self.RESIZE, 137.5 * self.RESIZE))
             
         if self.Menu_Sel["Menu"] == 3:
-            background3 = pygame.image.load(parentsource +"/images/battle_pokemon/b_0.png")    # 384 x 365
-            background3_resized = pygame.transform.scale(background3, (240 * self.RESIZE, 160 * self.RESIZE))
-
-            b_sel = pygame.image.load(parentsource +"/images/battle_pokemon/b_sel.png")
-            b_sel_resized = pygame.transform.scale(b_sel, (240 * self.RESIZE, 160 * self.RESIZE))
-
-            b_text = pygame.image.load(parentsource +"/images/battle_pokemon/b_text.png")
-            b_text_resized = pygame.transform.scale(b_text, (240 * self.RESIZE, 160 * self.RESIZE))
-            #print(self.Menu_Sel["Poss"])
-            
-            
-            pokeball_exit = pygame.image.load(parentsource +"/images/battle_pokemon/p_" + self.Data[self.Menu_Sel["Menu"]]["pb"][0 if self.Menu_Sel["Poss"] == 11 else 1] +".png")
-            pokeball_exit_resized = pygame.transform.scale(pokeball_exit, (20 * self.RESIZE, 24 * self.RESIZE))
-
-            pokeball_one  = pygame.image.load(parentsource +"/images/battle_pokemon/p_" + self.Data[self.Menu_Sel["Menu"]]["pb"][0 if self.Menu_Sel["Poss"] == 10 else 1] +".png")
-            pokeball_one_resized = pygame.transform.scale(pokeball_one, (20 * self.RESIZE, 24 * self.RESIZE))
-
-            self.screen.blit(background3_resized, background3_resized.get_rect())
-            self.screen.blit(b_sel_resized, b_sel_resized.get_rect())
-            self.screen.blit(b_text_resized, b_text_resized.get_rect())
-            self.screen.blit(pokeball_exit_resized, (185 * self.RESIZE, 132 * self.RESIZE))
-            self.screen.blit(pokeball_one_resized, (3 * self.RESIZE, 18 * self.RESIZE))
-
-            pokeball_player = {} 
-            pokeball_player_resized = {} 
-            for x in self.Player.pokemon:
-                if self.Player.pokemon[x] == None:
-                    break
-                if not x == 1:
-                    #print(x)
-                    pokeball_player[x] = pygame.image.load(parentsource +"/images/battle_pokemon/p_" + self.Data[self.Menu_Sel["Menu"]]["pb"][0 if self.Menu_Sel["Poss"] == self.Data[self.Menu_Sel["Menu"]]["pbposs"][x - 1][2] else 1] +".png")
-                    pokeball_player_resized[x] = pygame.transform.scale(pokeball_player[x], (20 * self.RESIZE, 24 * self.RESIZE))
-                    self.pokemons = x
-                    self.screen.blit(pokeball_player_resized[x], (self.Data[self.Menu_Sel["Menu"]]["pbposs"][x - 1][0] * self.RESIZE, self.Data[self.Menu_Sel["Menu"]]["pbposs"][x - 1][1] * self.RESIZE))
-                #pokeball[]
-                #self.Player.pokemon[x] = val.upper()
-                #print()
-        
+            self.o_pokemon().load()
         
         pygame.display.flip()
 

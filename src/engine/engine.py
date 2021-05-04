@@ -7,6 +7,7 @@ from tilemap import *
 #sys.path.insert(0, os.path.abspath(os.curdir))
 from Sel_Menu import *
 from battle import *
+from o_pokemon import *
 
 
 ############# LOAD GAME #############
@@ -20,8 +21,10 @@ class Game:
         pg.key.set_repeat(500, 100)
         self.load_data()
         self.Menu = Select_Menu(self.screen ,RESIZE)
-        self.Battle = Battle(self.screen ,RESIZE)
-
+        self.o_Pokemon = o_pokemon(self.screen ,RESIZE)
+        self.Battle = Battle(self.screen, self.o_Pokemon, RESIZE)
+        
+        
 
     def load_data(self):
         print(parentsource)
@@ -90,13 +93,14 @@ class Game:
             
         self.Menu.Draw()
         self.Battle.Draw()
+        self.o_Pokemon.Draw()
         pg.display.flip()
 
     def events(self):
         
         # catch all events here
         for event in pg.event.get(): # z=b x=a a=sel s=op
-            if event.type == pg.QUIT: self.quit()  
+            if event.type == pg.QUIT: self.quxit()  
             
             if event.type == pg.KEYDOWN:  
                 if event.key == pg.K_ESCAPE: self.quit()
@@ -114,16 +118,23 @@ class Game:
                 if self.Menu.Menu_Loaded:
                     if event.key == pg.K_UP: self.Menu.MenuUP()
                     if event.key == pg.K_DOWN: self.Menu.MenuDown()
-                    if event.key == pg.K_x: self.Menu.Sel()
+                    if event.key == pg.K_x: self.Menu.Sel(self.o_Pokemon)
                     if event.key == pg.K_z: self.Menu.Back()
-                    if event.key == pg.K_x: self.Menu.Sel()
+                    #if event.key == pg.K_x: self.Menu.Sel()
                 elif self.Battle.Battle:
-                    if event.key == pg.K_LEFT: self.Battle.BattleLEFT()
-                    if event.key == pg.K_RIGHT: self.Battle.BattleRIGHT()
-                    if event.key == pg.K_UP: self.Battle.BattleUP()
-                    if event.key == pg.K_DOWN: self.Battle.BattleDown()
+                    if event.key == pg.K_LEFT: self.Battle.LEFT()
+                    if event.key == pg.K_RIGHT: self.Battle.RIGHT()
+                    if event.key == pg.K_UP: self.Battle.UP()
+                    if event.key == pg.K_DOWN: self.Battle.Down()
                     if event.key == pg.K_x: self.Battle.Sel()
                     if event.key == pg.K_z: self.Battle.Back()
+                elif self.o_Pokemon.o2pokemon:
+                    if event.key == pg.K_LEFT: self.o_Pokemon.LEFT()
+                    if event.key == pg.K_RIGHT: self.o_Pokemon.RIGHT()
+                    if event.key == pg.K_UP: self.o_Pokemon.UP()
+                    if event.key == pg.K_DOWN: self.o_Pokemon.Down()
+                    if event.key == pg.K_x: self.o_Pokemon.Sel()
+                    if event.key == pg.K_z: self.o_Pokemon.Back()
 
                 else:
                     #print("SD")
