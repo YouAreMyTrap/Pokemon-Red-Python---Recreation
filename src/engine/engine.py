@@ -77,7 +77,7 @@ class Game:
         for sprite  in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
             
-        self.Menu.Draw()
+        if not self.o_Pokemon.o2pokemon: self.Menu.Draw()
         self.Battle.Draw()
         self.o_Pokemon.Draw()
         pg.display.flip()
@@ -100,7 +100,7 @@ class Game:
                                     "Poss": 1,
                                     "Menu": 0
                                     }
-                if self.Menu.Menu_Loaded:
+                if self.Menu.Menu_Loaded and not self.o_Pokemon.o2pokemon:
                     if event.key == pg.K_UP: self.Menu.MenuUP()
                     if event.key == pg.K_DOWN: self.Menu.MenuDown()
                     if event.key == pg.K_x: self.Menu.Sel(self.o_Pokemon)

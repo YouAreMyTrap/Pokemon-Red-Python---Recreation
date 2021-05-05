@@ -39,9 +39,7 @@ class Select_Menu:
 
         print(MenuInput[self.Menu_Sel])
         if MenuInput[self.Menu_Sel] == "EXIT": self.Menu_Loaded = False
-        if MenuInput[self.Menu_Sel] == "POKéMON": 
-            self.Menu_Loaded = False
-            two.Load()
+        if MenuInput[self.Menu_Sel] == "POKéMON": two.Load()
         # def KeyBind(self): #Continuo el keyimput solucionar
             #pressed_keys = pygame.event.wait()
             #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):
@@ -75,7 +73,7 @@ class Select_Menu:
             7: [97.5, "Close this MENU window,", ""]
             }
         #Imprime el background
-        print(parentsource + Path + str(PLAYER_FRAME) + IMG_EXTENSION)
+        #print(parentsource + Path + str(PLAYER_FRAME) + IMG_EXTENSION)
         menu = pygame.image.load(parentsource + Path+ str(PLAYER_FRAME) + IMG_EXTENSION)    # 384 x 365
 
         menu_resized = pygame.transform.scale(menu, (240 * self.RESIZE, 160 * self.RESIZE))
@@ -87,7 +85,7 @@ class Select_Menu:
 
 
         self.screen.blit(menu_resized, menu_resized.get_rect())
-        self.screen.blit(arrow_resized,(175 * self.RESIZE, Data[self.Menu_Sel][0] * self.RESIZE))
+        self.screen.blit(arrow_resized,(178 * self.RESIZE, Data[self.Menu_Sel][0] * self.RESIZE))
 
         #Imprime el texto
         pygame.font.init()

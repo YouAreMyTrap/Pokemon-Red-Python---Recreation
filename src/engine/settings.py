@@ -32,7 +32,7 @@ PLAYER_BATTLE_STYLE = 1
 PLAYER_SOUND = "MONO"
 PLAYER_BUTTON_MODE = "DISABLED"
 PLAYER_FRAME = 10
-PLAYER_GENDER = 0 # 0 Boy // 1 Girl
+PLAYER_GENDER = 1 # 0 Boy // 1 Girl
 
 # Path
 parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))

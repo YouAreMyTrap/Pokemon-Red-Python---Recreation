@@ -22,7 +22,12 @@ class o_pokemon():
                 "pb": ["open", "close"],
                 "pbposs": [0, [88, 9, 1], [88, 33, 2], [88, 57, 3], [88, 81, 4], [88, 105, 5]],
                 "textform":["b_text","b_text2"],
-                "arrow pos": [[999, 999], [10, 10], [0, 0]]}
+                "text_sel_tx":["Choose POKéMON or CANCEL","Do what with this PKMN?"],
+                "arrow pos": [0, [155, 92], [155, 107], [155, 122], [155, 137]],
+                "text_sel":["SUMMARY", "CHANGE", "OBJECT", "EXIT"],
+                "text_sel_POS":[[162, 90], [162, 105], [162, 120], [162, 135]]
+                }
+
 
     def Draw(self):
         if self.o2pokemon: self.Print()
@@ -30,10 +35,15 @@ class o_pokemon():
     def Load(self):
         """Show/UnShow Menu"""
         self.me = 2
+        self.Menu_Sel["Poss"] = 10
         self.o2pokemon = False if self.o2pokemon else True
         
 
     def Print(self):
+        
+        pygame.font.init()
+        font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
+
         background3 = pygame.image.load(parentsource +"/images/battle_pokemon/b_0.png")    # 384 x 365
         background3_resized = pygame.transform.scale(background3, (240 * self.RESIZE, 160 * self.RESIZE))
 
@@ -60,7 +70,7 @@ class o_pokemon():
         arrow = pygame.image.load(parentsource +'\images\menu\Arrow.png')    # 6 x 11
         arrow_resized = pygame.transform.scale(arrow, (6 * self.RESIZE, 11 * self.RESIZE))
 
-        self.screen.blit(arrow_resized, (self.Data["arrow pos"][self.Menu_Sel["Pos2"]][0] * self.RESIZE, self.Data["arrow pos"][self.Menu_Sel["Pos2"]][1] * self.RESIZE))
+        self.screen.blit(font.render(self.Data["text_sel_tx"][1 if self.Menu_Sel["Sel"] else 0], False, (72, 72, 72)) ,(10 * self.RESIZE, 135 * self.RESIZE))
 
         pokeball_player = {} 
         pokeball_player_resized = {} 
@@ -82,6 +92,13 @@ class o_pokemon():
         
         if self.Menu_Sel["Sel"]:
             self.screen.blit(selb_ui_resized, selb_ui_resized.get_rect())
+            self.screen.blit(arrow_resized, (self.Data["arrow pos"][self.Menu_Sel["Pos2"]][0] * self.RESIZE, self.Data["arrow pos"][self.Menu_Sel["Pos2"]][1] * self.RESIZE))
+
+            self.screen.blit(font.render(self.Data["text_sel"][0], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][0][0] * self.RESIZE, self.Data["text_sel_POS"][0][1] * self.RESIZE))
+            self.screen.blit(font.render(self.Data["text_sel"][1], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][1][0] * self.RESIZE, self.Data["text_sel_POS"][1][1] * self.RESIZE))
+            self.screen.blit(font.render(self.Data["text_sel"][2], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][2][0] * self.RESIZE, self.Data["text_sel_POS"][2][1] * self.RESIZE))
+            self.screen.blit(font.render(self.Data["text_sel"][3], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][3][0] * self.RESIZE, self.Data["text_sel_POS"][3][1] * self.RESIZE))
+
         pygame.display.flip()
 
     def UP(self):
@@ -99,6 +116,10 @@ class o_pokemon():
             if self.Menu_Sel["Poss"] > 1:
                 self.Menu_Sel["Poss"] -= 1
                 
+        else:
+            if self.Menu_Sel["Pos2"] > 1:
+                self.Menu_Sel["Pos2"] -= 1
+            
     def Down(self):
         """Move Arrow to DOWN"""
         if not self.Menu_Sel["Sel"]:
@@ -114,6 +135,9 @@ class o_pokemon():
             if self.Menu_Sel["Poss"] < self.pokemons -1:
                 self.Menu_Sel["Poss"] += 1
                 
+        else:
+            if self.Menu_Sel["Pos2"] < 4:
+                self.Menu_Sel["Pos2"] += 1
 
 
     def LEFT(self):
@@ -126,9 +150,18 @@ class o_pokemon():
             self.Menu_Sel["Poss"] = 1
 
     def Sel(self):
-       self.Menu_Sel["Sel"] = True
-       self.Menu_Sel["Pos2"] = 1
+        if self.Menu_Sel["Poss"] == 11:
+            self.Back()
+        elif not self.Menu_Sel["Sel"]:
+            self.Menu_Sel["Sel"] = True
+            self.Menu_Sel["Pos2"] = 1
+        else:
+            if self.Menu_Sel["Pos2"] == 4:
+                self.Menu_Sel["Sel"] = False
+
+            print(self.Menu_Sel["Pos2"])
     def Back(self):
         if self.Menu_Sel["Sel"]: 
             self.Menu_Sel["Sel"] = False
-  
+        else:
+            self.o2pokemon = False
