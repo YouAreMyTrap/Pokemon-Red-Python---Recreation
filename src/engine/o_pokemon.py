@@ -190,6 +190,9 @@ class o_pokemon():
             #print(self.Data["options"][1])
             if self.Data["options"][1] == self.Menu_Sel["Poss"] +1 or (self.Menu_Sel["Poss"] == 10 and self.Data["options"][1] == 1):
                 self.Data["options"] = ["DISABLED",0,0]
+            else:
+                self.Player.ChangePokemon(self.Data["options"][1], self.Data["options"][2])
+                self.Data["options"] = ["DISABLED",0,0]
 
             #print(self.Menu_Sel["Pos2"])
     def Back(self):

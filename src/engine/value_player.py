@@ -34,5 +34,7 @@ class Player_InGame:
                 return i
             i += 1
 
-    def MovePokemon(self, pok1, pok2):
-        pass
+    def ChangePokemon(self, pok1, pok2):
+        tempok = pok2
+        self.pokemon[pok2] = self.pokemon[pok1]
+        self.pokemon[pok1] = self.pokemon[tempok]
