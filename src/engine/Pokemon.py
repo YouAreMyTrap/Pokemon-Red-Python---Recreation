@@ -123,6 +123,9 @@ class Pokemon_Battle(Pokemon):
     def GetHealt(self):
         """Get current heal of pokemon"""
         return self.pk["healt"]
+    def GetLevel(self):
+        """Get current level of pokemon"""
+        return self.pk["level"]
 
     def ChangePP(self, mov, action, n = 1):
         """Change PP Value 

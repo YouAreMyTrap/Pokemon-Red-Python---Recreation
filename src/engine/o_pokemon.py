@@ -26,7 +26,10 @@ class o_pokemon():
                 "arrow pos": [0, [155, 92], [155, 107], [155, 122], [155, 137]],
                 "text_sel":["SUMMARY", "CHANGE", "OBJECT", "EXIT"],
                 "text_sel_POS":[[162, 90], [162, 105], [162, 120], [162, 135]],
-                "options":["DISABLED", 0, 0]
+                "options":["DISABLED", 0, 0],
+                "pokename_pos":[[30,30], [115,10], [115,35], [115,60], [115,83], [115,106]],
+                "pokelvl_pos":[[35,42], [125,20], [125,45], [125,70], [125,93], [125,116]],
+                "pokehp_pos":[[56,62], [210,20], [210,45], [210,70], [210,93], [210,116]]
                 }
 
 
@@ -73,9 +76,11 @@ class o_pokemon():
 
         self.screen.blit(font.render(self.Data["text_sel_tx"][1 if self.Menu_Sel["Sel"] else 0], False, (72, 72, 72)) ,(10 * self.RESIZE, 135 * self.RESIZE))
 
+        b_sel = {} 
+        pokemon_player = {} 
         pokeball_player = {} 
         b_sel_resized = {} 
-        b_sel = {} 
+        pokemon_player_resized = {} 
         pokeball_player_resized = {} 
         for x in self.Player.pokemon:
             b_sel[x] = pygame.image.load(parentsource +"/images/battle_pokemon/b_sel_"+ str(x) + str(1 if (self.Data["options"][1] == x or (self.Data["options"][2] == x and self.Data["options"][0] == "Change")) else 0) +".png")
@@ -84,20 +89,29 @@ class o_pokemon():
             if self.Player.pokemon[x] == None:
                 break
             if x == 1:  
-                pokeball_player[x] = pygame.image.load(parentsource +"/images/battle_pokemon/p_" + self.Data["pb"][0 if self.Menu_Sel["Poss"] == 10 else 1] +".png")   
+                pokeball_player[x] = pygame.image.load(parentsource +"/images/battle_pokemon/p_" + self.Data["pb"][0 if self.Menu_Sel["Poss"] == 10 else 1] +".png")  
             else:
                 pokeball_player[x] = pygame.image.load(parentsource +"/images/battle_pokemon/p_" + self.Data["pb"][0 if self.Menu_Sel["Poss"] == self.Data["pbposs"][x - 1][2] else 1] +".png")
 
+
+            #print(self.Player.pokemon[x].GetName()[1])
+            pokemon_player[x]  = pygame.image.load(parentsource +"/images/pokemons/" + str(self.Player.pokemon[x].GetName()[1]) +"/icon.gif")  
+
             self.pokemons = x
             pokeball_player_resized[x] = pygame.transform.scale(pokeball_player[x], (20 * self.RESIZE, 24 * self.RESIZE))
+            pokemon_player_resized[x] = pygame.transform.scale(pokemon_player[x], (32 * self.RESIZE, 32 * self.RESIZE))
             self.screen.blit(b_sel_resized[x], b_sel_resized[x].get_rect())
             self.screen.blit(pokeball_player_resized[x], (self.Data["pbposs"][x - 1][0] * self.RESIZE, self.Data["pbposs"][x - 1][1] * self.RESIZE))
+            self.screen.blit(pokemon_player_resized[x], (self.Data["pbposs"][x - 1][0] * self.RESIZE - 10, self.Data["pbposs"][x - 1][1] * self.RESIZE - 10 ))
+
+            self.screen.blit(font.render(self.Player.pokemon[x].GetName()[0], False, (248, 248, 248)) ,(self.Data["pokename_pos"][x -1][0] * self.RESIZE, self.Data["pokename_pos"][x -1][1] * self.RESIZE))
+            self.screen.blit(font.render("Nv" + str(self.Player.pokemon[x].GetLevel()), False, (248, 248, 248)) ,(self.Data["pokelvl_pos"][x -1][0] * self.RESIZE, self.Data["pokelvl_pos"][x -1][1] * self.RESIZE))
+            self.screen.blit(font.render(str(self.Player.pokemon[x].GetHealt()) + "/" + str(self.Player.pokemon[x].GetHp()), False, (248, 248, 248)) ,(self.Data["pokehp_pos"][x -1][0] * self.RESIZE, self.Data["pokehp_pos"][x -1][1] * self.RESIZE))
 
 
 
         selb_ui = pygame.image.load(parentsource +'/images/battle_pokemon/'+ self.Data["Img"] + str(self.me) + '.png')    # 240 x 160
         selb_ui_resized = pygame.transform.scale(selb_ui, (240 * self.RESIZE, 160 * self.RESIZE))
-        
         if self.Menu_Sel["Sel"]:
             self.screen.blit(selb_ui_resized, selb_ui_resized.get_rect())
             self.screen.blit(arrow_resized, (self.Data["arrow pos"][self.Menu_Sel["Pos2"]][0] * self.RESIZE, self.Data["arrow pos"][self.Menu_Sel["Pos2"]][1] * self.RESIZE))
@@ -107,6 +121,7 @@ class o_pokemon():
             self.screen.blit(font.render(self.Data["text_sel"][2], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][2][0] * self.RESIZE, self.Data["text_sel_POS"][2][1] * self.RESIZE))
             self.screen.blit(font.render(self.Data["text_sel"][3], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][3][0] * self.RESIZE, self.Data["text_sel_POS"][3][1] * self.RESIZE))
 
+        self.screen.blit(font.render("Exit", False, (248, 248, 248)) ,(210 * self.RESIZE, 137 * self.RESIZE))
         pygame.display.flip()
 
     def UP(self):
