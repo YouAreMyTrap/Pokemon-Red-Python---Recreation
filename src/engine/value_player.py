@@ -33,3 +33,6 @@ class Player_InGame:
             if not Player_InGame().pokemon[i].GetHealt() == 0:
                 return i
             i += 1
+
+    def MovePokemon(self, pok1, pok2):
+        pass

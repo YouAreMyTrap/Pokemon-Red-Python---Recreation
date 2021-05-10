@@ -14,6 +14,8 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
 # game settings
+MAX_POKEMONS = 6
+
 RESIZE = 2
 WIDTH = 240 * RESIZE
 HEIGHT = 160 * RESIZE
