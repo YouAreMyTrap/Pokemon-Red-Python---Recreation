@@ -39,7 +39,9 @@ class Select_Menu:
 
         print(MenuInput[self.Menu_Sel])
         if MenuInput[self.Menu_Sel] == "EXIT": self.Menu_Loaded = False
-        if MenuInput[self.Menu_Sel] == "POKéMON": two.Load()
+        if MenuInput[self.Menu_Sel] == "POKéMON": 
+            two.Load()
+            two.me = 2
         # def KeyBind(self): #Continuo el keyimput solucionar
             #pressed_keys = pygame.event.wait()
             #if (pressed_keys.type == pygame.KEYDOWN) and (pressed_keys.key == pygame.K_o):

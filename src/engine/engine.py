@@ -4,6 +4,7 @@ from settings import *
 from sprites import *
 from tilemap import *
 
+from value_player import *
 #sys.path.insert(0, os.path.abspath(os.curdir))
 from Sel_Menu import *
 from battle import *
@@ -20,9 +21,10 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
+        self.player =  Player_InGame()
         self.Menu = Select_Menu(self.screen ,RESIZE)
-        self.o_Pokemon = o_pokemon(self.screen ,RESIZE)
-        self.Battle = Battle(self.screen, self.o_Pokemon, RESIZE)
+        self.o_Pokemon = o_pokemon(self.screen ,RESIZE, self.player)
+        self.Battle = Battle(self.screen, self.o_Pokemon, self.player, RESIZE)
         
         
 
@@ -78,7 +80,8 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
             
         if not self.o_Pokemon.o2pokemon: self.Menu.Draw()
-        self.Battle.Draw()
+        if not self.o_Pokemon.o2pokemon: self.Battle.Draw()
+        #print(self.o_Pokemon.o2pokemon)
         self.o_Pokemon.Draw()
         pg.display.flip()
 
@@ -106,7 +109,7 @@ class Game:
                     if event.key == pg.K_x: self.Menu.Sel(self.o_Pokemon)
                     if event.key == pg.K_z: self.Menu.Back()
                     #if event.key == pg.K_x: self.Menu.Sel()
-                elif self.Battle.Battle:
+                elif self.Battle.Battle and not self.o_Pokemon.o2pokemon:
                     if event.key == pg.K_LEFT: self.Battle.LEFT()
                     if event.key == pg.K_RIGHT: self.Battle.RIGHT()
                     if event.key == pg.K_UP: self.Battle.UP()

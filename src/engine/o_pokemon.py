@@ -2,14 +2,13 @@ import pygame
 import os
 from settings import *
 
-from value_player import *
 
 class o_pokemon():
-    def __init__(self, screen2, resize, me = 1):
+    def __init__(self, screen2, resize, player, me = 1,):
         self.screen = screen2
         self.RESIZE = resize
         self.o2pokemon = False
-        self.Player = Player_InGame()
+        self.Player = player
         self.me = me
         self.Menu_Sel = {
             "Poss": 10,
@@ -23,8 +22,17 @@ class o_pokemon():
                 "pbposs": [[3, 18], [88, 9, 1], [88, 33, 2], [88, 57, 3], [88, 81, 4], [88, 105, 5]],
                 "textform":["b_text","b_text2"],
                 "text_sel_tx":["Choose POKéMON or CANCEL","Do what with this PKMN?"],
-                "arrow pos": [0, [155, 92], [155, 107], [155, 122], [155, 137]],
-                "text_sel":["SUMMARY", "CHANGE", "OBJECT", "EXIT"],
+                "arrow pos": {
+                    1:[0, [155, 107], [155, 122], [155, 137], [155, 137]],
+                    2: [0, [155, 92], [155, 107], [155, 122], [155, 137]],
+                    3: [0, [155, 107], [155, 122], [155, 137], [0, 0]],
+                    4: [0, [155, 122], [155, 137], [0, 0], [0, 0]]
+                    },
+                "text_sel":{
+                    1:["", "CHANGE", "SUMMARY", "EXIT"],
+                    2:["SUMMARY", "CHANGE", "OBJECT", "EXIT"],
+                    3:["", "SUMMARY", "OBJECT", "EXIT"],
+                    4:["", "", "SUMMARY", "EXIT"]},
                 "text_sel_POS":[[162, 90], [162, 105], [162, 120], [162, 135]],
                 "options":["DISABLED", 0, 0],
                 "pokename_pos":[[30,30], [115,10], [115,35], [115,60], [115,83], [115,106]],
@@ -110,17 +118,17 @@ class o_pokemon():
 
 
 
-        selb_ui = pygame.image.load(parentsource +'/images/battle_pokemon/'+ self.Data["Img"] + str(self.me) + '.png')    # 240 x 160
+        selb_ui = pygame.image.load(parentsource +'/images/battle_pokemon/'+ self.Data["Img"] + str(2 if self.me == 2 and not self.pokemons == 1 else 12 if self.me == 2 and self.pokemons == 1 else 1 if self.pokemons == 1 else 12) + '.png')    # 240 x 160
         selb_ui_resized = pygame.transform.scale(selb_ui, (240 * self.RESIZE, 160 * self.RESIZE))
         if self.Menu_Sel["Sel"]:
             self.screen.blit(selb_ui_resized, selb_ui_resized.get_rect())
-            self.screen.blit(arrow_resized, (self.Data["arrow pos"][self.Menu_Sel["Pos2"]][0] * self.RESIZE, self.Data["arrow pos"][self.Menu_Sel["Pos2"]][1] * self.RESIZE))
+            self.screen.blit(arrow_resized, (self.Data["arrow pos"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][self.Menu_Sel["Pos2"]][0] * self.RESIZE, self.Data["arrow pos"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][self.Menu_Sel["Pos2"]][1] * self.RESIZE))
 
-            self.screen.blit(font.render(self.Data["text_sel"][0], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][0][0] * self.RESIZE, self.Data["text_sel_POS"][0][1] * self.RESIZE))
-            self.screen.blit(font.render(self.Data["text_sel"][1], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][1][0] * self.RESIZE, self.Data["text_sel_POS"][1][1] * self.RESIZE))
-            self.screen.blit(font.render(self.Data["text_sel"][2], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][2][0] * self.RESIZE, self.Data["text_sel_POS"][2][1] * self.RESIZE))
-            self.screen.blit(font.render(self.Data["text_sel"][3], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][3][0] * self.RESIZE, self.Data["text_sel_POS"][3][1] * self.RESIZE))
-
+            self.screen.blit(font.render(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][0], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][0][0] * self.RESIZE, self.Data["text_sel_POS"][0][1] * self.RESIZE))
+            self.screen.blit(font.render(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][1], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][1][0] * self.RESIZE, self.Data["text_sel_POS"][1][1] * self.RESIZE))
+            self.screen.blit(font.render(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][2], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][2][0] * self.RESIZE, self.Data["text_sel_POS"][2][1] * self.RESIZE))
+            self.screen.blit(font.render(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][3], False, (72, 72, 72)) ,(self.Data["text_sel_POS"][3][0] * self.RESIZE, self.Data["text_sel_POS"][3][1] * self.RESIZE))
+        
         self.screen.blit(font.render("Exit", False, (248, 248, 248)) ,(210 * self.RESIZE, 137 * self.RESIZE))
         pygame.display.flip()
 
@@ -162,7 +170,7 @@ class o_pokemon():
                 self.Menu_Sel["Poss"] += 1
                 
         else:
-            if self.Menu_Sel["Pos2"] < 4:
+            if (self.Menu_Sel["Pos2"] < 4 and self.me == 2 and not self.pokemons == 1) or (self.Menu_Sel["Pos2"] < 3 and self.me == 2 and self.pokemons == 1) or (self.Menu_Sel["Pos2"] < 3 and self.me == 1  and not self.pokemons == 1) or (self.Menu_Sel["Pos2"] < 2 and self.me == 1  and self.pokemons == 1):
                 self.Menu_Sel["Pos2"] += 1
 
 
@@ -185,10 +193,12 @@ class o_pokemon():
         self.Data["options"][2] = 2
 
     def Sel(self):
-
-        if self.Menu_Sel["Poss"] == 11:
-            if self.Data["options"][0] == "DISABLED": self.Back() 
-            else: self.Data["options"] = ["DISABLED",0,0]
+        #problema en el ultimo [] - solo funciona con el 1r y he necesito que vaya con los demas menus
+        print(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][self.Menu_Sel["Pos2"] -1])
+        print(self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4)
+        print(self.Menu_Sel["Pos2"])
+        if self.Menu_Sel["Poss"] == "11":
+            self.Back() 
             
         elif not self.Menu_Sel["Sel"] and self.Data["options"][0] == "DISABLED":
             self.Menu_Sel["Sel"] = True
@@ -211,7 +221,9 @@ class o_pokemon():
 
             #print(self.Menu_Sel["Pos2"])
     def Back(self):
-        if self.Menu_Sel["Sel"]: 
-            self.Menu_Sel["Sel"] = False
-        else:
-            self.o2pokemon = False
+        if self.Data["options"][0] == "DISABLED":
+            if self.Menu_Sel["Sel"]: 
+                self.Menu_Sel["Sel"] = False
+            else:
+                self.o2pokemon = False
+        else: self.Data["options"] = ["DISABLED",0,0]
