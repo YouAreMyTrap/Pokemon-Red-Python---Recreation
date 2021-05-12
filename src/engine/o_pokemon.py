@@ -9,6 +9,7 @@ class o_pokemon():
         self.RESIZE = resize
         self.o2pokemon = False
         self.Player = player
+        self.curpokemon = self.Player.GetStartPokemon()
         self.me = me
         self.Menu_Sel = {
             "Poss": 10,
@@ -186,29 +187,33 @@ class o_pokemon():
         self.Data["options"][2] = 1
     def RIGHT(self):
         """Move Arrow to RIGHT"""
-        if not self.Menu_Sel["Sel"] and not self.Player.pokemon == 1:
+        if not self.Menu_Sel["Sel"] and not self.pokemons == 1:
             self.Menu_Sel["Poss"] = 1
-        elif sself.Player.pokemon == 1:
+        elif self.pokemons == 1:
             self.Menu_Sel["Poss"] = 11
         self.Data["options"][2] = 2
 
-    def Sel(self):
+    def Sel(self, battle):
         #problema en el ultimo [] - solo funciona con el 1r y he necesito que vaya con los demas menus
-        print(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][self.Menu_Sel["Pos2"] -1])
-        print(self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4)
-        print(self.Menu_Sel["Pos2"])
-        if self.Menu_Sel["Poss"] == "11":
-            self.Back() 
-            
+        var = self.Menu_Sel["Pos2"] -1 if self.me == 2 and not self.pokemons == 1 else self.Menu_Sel["Pos2"] if self.me == 1 and not self.pokemons == 1 else self.Menu_Sel["Pos2"] + 0 if self.me == 2 and self.pokemons == 1 else self.Menu_Sel["Pos2"] + 1
+        print(self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][var])
+        #print(self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4)
+        #print(var)
+        if self.Menu_Sel["Poss"] == 11: self.Back() 
         elif not self.Menu_Sel["Sel"] and self.Data["options"][0] == "DISABLED":
             self.Menu_Sel["Sel"] = True
             self.Menu_Sel["Pos2"] = 1
         elif self.Data["options"][0] == "DISABLED":
-            if self.Menu_Sel["Pos2"] == 2:
-                self.Data["options"] = ["Change", 1 if self.Menu_Sel["Poss"] == 10 else self.Menu_Sel["Poss"] + 1, 0]
-                self.Menu_Sel["Sel"] = False
-                #print(self.Data["options"])
-            if self.Menu_Sel["Pos2"] == 4:
+            if self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][var] == "CHANGE":
+                if self.me == 2:
+                    self.Data["options"] = ["Change", 1 if self.Menu_Sel["Poss"] == 10 else self.Menu_Sel["Poss"] + 1, 0]
+                    self.Menu_Sel["Sel"] = False
+                else:
+                    battle.curpokemon = 2
+                    self.o2pokemon = False
+                    #self.Back()
+                    print("change")
+            if self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][var] == "EXIT":
                 self.Menu_Sel["Sel"] = False
         else:
             #print(self.Menu_Sel["Poss"])
@@ -224,6 +229,8 @@ class o_pokemon():
         if self.Data["options"][0] == "DISABLED":
             if self.Menu_Sel["Sel"]: 
                 self.Menu_Sel["Sel"] = False
+                print("w")
             else:
                 self.o2pokemon = False
+                print("E")
         else: self.Data["options"] = ["DISABLED",0,0]

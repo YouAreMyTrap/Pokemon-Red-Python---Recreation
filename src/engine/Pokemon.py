@@ -74,7 +74,7 @@ class Pokemon_Pokedex:
 
 class Pokemon_Battle(Pokemon):
     #def __init__(self, id, name, evs, mov, hp, lvl, exp):
-    def __init__(self):
+    def __init__(self, name):
         self.pk = {
             "id":1,
             "cname":"lechuga",
@@ -120,6 +120,7 @@ class Pokemon_Battle(Pokemon):
                 4: ["-", 42,43,4,"Normal"]
                    }
             }
+        self.pk["cname"] = name
     def GetHealt(self):
         """Get current heal of pokemon"""
         return self.pk["healt"]

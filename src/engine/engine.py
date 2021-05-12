@@ -121,7 +121,7 @@ class Game:
                     if event.key == pg.K_RIGHT: self.o_Pokemon.RIGHT()
                     if event.key == pg.K_UP: self.o_Pokemon.UP()
                     if event.key == pg.K_DOWN: self.o_Pokemon.Down()
-                    if event.key == pg.K_x: self.o_Pokemon.Sel()
+                    if event.key == pg.K_x: self.o_Pokemon.Sel(self.Battle)
                     if event.key == pg.K_z: self.o_Pokemon.Back()
 
                 else:

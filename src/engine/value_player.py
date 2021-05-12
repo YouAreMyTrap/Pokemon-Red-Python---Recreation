@@ -18,12 +18,12 @@ class PSettings:
 class Player_InGame:
     def __init__(self, money=0):
         self.pokemon = {
-            1: Pokemon_Battle(),
-            2: Pokemon_Battle(),
-            3: Pokemon_Battle(),
-            4: Pokemon_Battle(),
-            5: Pokemon_Battle(),
-            6: Pokemon_Battle()
+            1: Pokemon_Battle("1"),
+            2: Pokemon_Battle("2"),
+            3: Pokemon_Battle("3"),
+            4: Pokemon_Battle("4"),
+            5: Pokemon_Battle("5"),
+            6: Pokemon_Battle("6")
             }
         self.Money = money
         self.Name = "Error"
@@ -35,6 +35,6 @@ class Player_InGame:
             i += 1
 
     def ChangePokemon(self, pok1, pok2):
-        tempok = pok2
+        tempok =  self.pokemon[pok2]
         self.pokemon[pok2] = self.pokemon[pok1]
-        self.pokemon[pok1] = self.pokemon[tempok]
+        self.pokemon[pok1] = tempok
