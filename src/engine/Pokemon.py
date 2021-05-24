@@ -43,12 +43,16 @@ class Pokemon:
         #print("SDA")
         return self.dfvalues["name"]
     def GetMovsBylevel(self, level):
+        """Get Mov of level"""
         return self.dfvalues["MOVS"][level]
     def GetRateGender(self):
+        """Get Rate Gender"""
         return self.dfvalues["gender_m"]
     def GetBaseStats(self):
+        """Get Base Stats"""
         return self.dfvalues["base"]["HP"], self.dfvalues["base"]["Attack"], self.dfvalues["base"]["Defense"], self.dfvalues["base"]["Special Attack"], self.dfvalues["base"]["Special Defense"], self.dfvalues["base"]["Speed"]
     def GetKOexp(self):
+        """Get exp when pokemon ko"""
         return self.dfvalues["ko"]["xp"]
    # def GetKOEvs(self):
    #     return self.dfvalues["ko"]["HP"], self.dfvalues["ko"]["Attack"], self.dfvalues["ko"]["Defense"], self.dfvalues["ko"]["Special Attack"], self.dfvalues["ko"]["Special Defense"], self.dfvalues["ko"]["Speed"]
@@ -74,6 +78,7 @@ class Pokemon_Pokedex:
 
 class Pokemon_Battle(Pokemon):
     #def __init__(self, id, name, evs, mov, hp, lvl, exp):
+    """Pokemon Btalle Object"""
     def __init__(self, name):
         self.pk = {
             "id":1,
@@ -181,7 +186,9 @@ class Pokemon_Battle(Pokemon):
         self.pk["MOVS"][id] = [mov, max]
 
     def GetDamage(self, dmof, enemy): #enemrydef [0]Def [1]SDef
-       # Falta los modificadores
+        """Calculate damage and return"""
+        #refer link https://bit.ly/34b0iLZ
+
         return (((2*self.pk["level"]/5 + 2) * self.GetMov(dmof)[3] * self.CalculateA_D(self.GetMov(dmof)[4], [enemy.GetDefense(),enemy.GetSDefense()]))/50 + 2) * self.Calculate_Modifier(self.GetMov(dmof)[4], enemy.pk["type"], ["Water","Fire"])
         pass
     
@@ -238,12 +245,13 @@ class Pokemon_Battle(Pokemon):
         Weather = 1.5 if (("Water" == mov) and ("Rain"in st) or ("Fire" == mov) and ("Harsh sunlight"in st)) else 0.5 if (("Water" == mov) and ("Harsh sunlight"in st) or ("Fire" == mov) and ("Rain"in st)) else 1
         Targets = 0.75
         randoms = random.randint(217,255)/255
-        STAB = 1.5 if mov in tplayer else 1
+        STAB = 1.5 if mov in tplayer else 1  #Atack Bonus
         Type = self.type_effectiveness(mov, etype)
-        #print((Type))
         return Targets * Weather * randoms * STAB * Type
 
     def  type_effectiveness(self, ptype, etype):
+        """Efficiences of pokemon calculator"""
+        #refer link https://bit.ly/3fHOlCJ
         types= {
             "Normal":{
                 "Rock" : 0.5,

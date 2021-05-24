@@ -9,7 +9,6 @@ from enemy import *
 
 class Battle:
     def __init__(self, screen2, o_Pokemon, player, resize = 0):
-        #print("Menu Loaded")
         self.Battle = False
         self.screen = screen2
         self.RESIZE = resize
@@ -24,12 +23,13 @@ class Battle:
             "Menu": 0,
             }
 
-        self.MenuInput = {
+        self.MenuInput = { #Translate menu position to 1-4
             1: 1,
             2: 2,
             10: 3,
             20: 4
             }
+        #Data what need for works, positions, names, images etc in battle menu
         self.Data = {
             0: {
                 "Img": "ui_" + str(PLAYER_FRAME),
@@ -60,6 +60,7 @@ class Battle:
         #print(Player_InGame(self.curpokemon).pokemon.GetHp())
 
     def GetFixpos(self):
+        """Fix Position of menu"""
         return self.Menu_Sel["Poss"] if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 3 if self.Menu_Sel["Poss"] == 10 else 4
     def BattleLoad(self, enemy):
         """New Battle"""
@@ -111,14 +112,12 @@ class Battle:
         print(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
 
         print(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])
+        
+        #Battle
         if isinstance(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], int) and not str(self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[0]) == "-": 
             self.Attack()
-            #print(self.Player.pokemon[1].GetHealt())
-            #print(self.WhoFirst())
-            #self.Player.GetStartPokemon()
-            #print(self.Player.pokemon[1].GetDamage((self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])))
 
-
+        #Menu position
         if self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]] == "FIGHT": 
             self.Menu_Sel["Menu"] = 1
              #print("asd")
@@ -140,66 +139,80 @@ class Battle:
        return  random.choice(["Enemy", "Player"]) if self.Player.pokemon[self.curpokemon].GetSpeed() == self.Enemy.pokemon[self.curpokemon2].GetSpeed() else "Player" if self.Player.pokemon[self.curpokemon].GetSpeed() > self.Enemy.pokemon[self.curpokemon2].GetSpeed() else "Enemy"
         
     def Back(self):
+        """Return to Back"""
         if self.Menu_Sel["Menu"] == 1: 
              self.Menu_Sel["Menu"] = 0
         if self.Menu_Sel["Menu"] == 3: 
              self.Menu_Sel["Menu"] = 0  
 
     def Draw(self):
+        """Draw batlle ui if it's loaded"""
         #print(self.Menu_Sel["Poss"] if (self.Menu_Sel["Poss"] == 1 or self.Menu_Sel["Poss"] == 2) else 3 if self.Menu_Sel["Poss"] == 10 else 4)
-        if self.Battle: self.print()
+        if self.Battle: self.__print()
+
     def IA_sel_move(self):
+        """Get what move use enemy"""
         while True:
             rnumber = random.randint(1,4)
             if not self.Enemy.pokemon[self.curpokemon2].pk["MOVS"][rnumber][0] == "-"and not self.Enemy.pokemon[self.curpokemon].GetMov(rnumber)[1] == 0:
                 return rnumber
 
     def Attack(self, change = False):
+        """Atack Pokemon"""
+
+        #Verify if no change pokemon
         if not change: damage = self.Player.pokemon[self.curpokemon].GetDamage(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], self.Enemy.pokemon[self.curpokemon2])
                 
-        #CREAR IA QUE ELIJA QUE MOVIMIENTOS VA MEJOR, AHORA SOLO SELECIONA EL MISMO QUE EL JUGADOR
+        #Get enemy atack
         enemy_attack = self.IA_sel_move()
+        #Get player atack
         damage2 = self.Enemy.pokemon[self.curpokemon2].GetDamage(enemy_attack, self.Player.pokemon[self.curpokemon])
         if change:
+            #if player change pokemon enemy atack (enemy no change pokemons)
             self.Player.pokemon[self.curpokemon].RemoveHealt(damage2)
             self.Enemy.pokemon[self.curpokemon2].ChangePP(enemy_attack, "rv")
-        elif self.WhoFirst() == "Player" and not self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0 and not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetHealt() == 0:
-            #print(self.curpokemon)
+
+        elif self.WhoFirst() == "Player" and not self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0 and not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetHealt() == 0:     
+            #Atack Player to pokemon enemy
             self.Enemy.pokemon[self.curpokemon2].RemoveHealt(damage)
             self.Player.pokemon[self.curpokemon].ChangePP(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
-
-                #print(self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
                 
             if not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Enemy.pokemon[self.curpokemon2].GetMov(enemy_attack)[1]  == 0:
+                #Atack Enemy to pokemon Player
                 self.Player.pokemon[self.curpokemon].RemoveHealt(damage2)
                 self.Enemy.pokemon[self.curpokemon2].ChangePP(enemy_attack, "rv")
-                    #print(self.Player.Enemy[self.curpokemon2].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
 
         elif not self.Enemy.pokemon[self.curpokemon].GetMov(enemy_attack)[1] == 0 and not self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetHealt() == 0:
+            #Atack Enemy to pokemon Player
             self.Player.pokemon[self.curpokemon].RemoveHealt(damage2)
             self.Enemy.pokemon[self.curpokemon2].ChangePP(enemy_attack, "rv")
-                #print(self.Player.Enemy[self.curpokemon2].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
 
             if not self.Player.pokemon[self.curpokemon].GetHealt() == 0 and not self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1] == 0:
+                #Atack Player to pokemon enemy
                 self.Enemy.pokemon[self.curpokemon2].RemoveHealt(damage)
                 self.Player.pokemon[self.curpokemon].ChangePP(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]], "rv")
-                   # print(self.Player.pokemon[self.curpokemon].GetMov(self.MenuInput[self.Menu_Sel["Poss"]][self.Menu_Sel["Menu"]])[1])
         else:
             print("Error No pp or pokemon death")
-
+        #Check pokemon playerhealt it's 0
         if self.Player.pokemon[self.curpokemon].GetHealt() == 0:
             if self.NextPokemon(self.Player) == "Win":
+                #Win if player all pokemons death
                 print("Win enemy")
                 self.Player.Money -= self.Enemy.LoseMoney
                 self.Battle = False
             else: 
+                #change pokemon automatic if player i have pokemons
                 self.curpokemon = self.NextPokemon(self.Player)
+
+        #Check pokemon enemy healt it's 0
         elif self.Enemy.pokemon[self.curpokemon2].GetHealt() == 0:
             if self.NextPokemon(self.Enemy) == "Win":
+                #Win if enemy all pokemons death
                 print("Win Player")
                 self.Player.Money += self.Enemy.WinMoney
                 self.Battle = False
             else: 
+                #change enemy automatic if player i have pokemons
                 self.curpokemon2 = self.NextPokemon(self.Enemy)
 
         print("""
@@ -216,6 +229,7 @@ class Battle:
         pass
     
     def NextPokemon(self, data):
+        """Calculate what it's next pokemon"""
         i = 1
         while i <= 6:
             if data.pokemon[i] == None:
@@ -226,7 +240,8 @@ class Battle:
                 return "Win"
             i += 1
 
-    def print(self):
+    def __print(self):
+        """Print on screen"""
         pygame.font.init()
         
         font = pygame.font.Font(parentsource + "\pokemon_fire_red.ttf", 15 * self.RESIZE, bold=True)
@@ -305,7 +320,6 @@ class Battle:
                 #Text panel healt
         self.screen.blit(font.render(str(self.Player.pokemon[self.curpokemon].pk["healt"]) + "/ "+ str(self.Player.pokemon[self.curpokemon].GetHp()), False, (32, 32, 32)) ,(193 * self.RESIZE, 94.5 * self.RESIZE))
         self.screen.blit(font.render(self.Player.pokemon[self.curpokemon].pk["cname"], False, (32, 32, 32)) ,(140 * self.RESIZE, 75 * self.RESIZE))
-                #print("asd")
         #self.screen.blit(font.render(self.Data[self.Menu_Sel["Menu"]]["text6"], False, (32, 32, 32)) ,(167 * self.RESIZE, 137.5 * self.RESIZE))
             
         pygame.display.flip()
