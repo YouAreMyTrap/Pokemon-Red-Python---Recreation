@@ -24,3 +24,12 @@ x - Enter
 
 Con b ejecutas una batalla para probar-lo
 Con s ejecuta el menu selecion, asta ahora solo funcionan 2 menus, el de Pokemon y el exit
+
+
+Librerias necesarias:
+
+- PyGame
+- tilemap
+- sqlite3
+- pytmx
+
