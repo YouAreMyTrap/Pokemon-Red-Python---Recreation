@@ -42,12 +42,18 @@ class Game:
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.player = Player(self, 10, 10)
-        # for row, tiles in enumerate(self.map.data):  # get all data from map
-        #     for col, tile in enumerate(tiles):
-        #         if tile == "1":  # all "1" in data file will spawn a wall
-        #             Wall(self, col, row)
-        self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screen
+        self.interact = pg.sprite.Group()
+        self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screenç
+        self.player = Player(self, 10, 58)
+        for tile_object in self.map.tmxdata.objects:
+            if tile_object.name == 'wall':
+                Obstacle(self, (tile_object.x / TILESIZE), (tile_object.y / TILESIZE),
+                         tile_object.width, tile_object.height)
+            for signs in signs_tiles:
+                if tile_object.name == signs:
+                    Sign(self, (tile_object.x / TILESIZE), (tile_object.y / TILESIZE),
+                         tile_object.width, tile_object.height, "sign")
+
     def run(self):
         # game loop - set self.playinxxxxxxxxxxg = False to end the game
         self.playing = True
