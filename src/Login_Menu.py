@@ -1,12 +1,19 @@
+import os.path, sys
+
 from SQLCall import *
 import tkinter as tk
 from PIL import Image, ImageTk  # py -m pip install Pillow
 from tkinter import messagebox
 
 
+
 class Dirs:
     parentDirectory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-    print(parentDirectory)
+    engine_folder = os.path.normcase('src/Engine/')
+    bin = os.path.join(parentDirectory, engine_folder)
+    sys.path.append(bin)
+
+
     # Img
     img = os.path.join(parentDirectory, "img")
 
@@ -78,7 +85,9 @@ class LoginMenu:
         passwd = getpasswd
 
         if SQL().ConnectUser(user, passwd):
-            alert("Login", "Login in...\nWelcum %s!" % user)
+            alert("Login", "Login in...\nWelcome %s!" % user)
+            import engine
+
 
         elif (user == "") or (passwd == ""):
             alert("Login Failed", "Please introduce a valid Username or Password")

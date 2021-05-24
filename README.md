@@ -3,12 +3,14 @@ Pokemon
 
 
 
-Configuracion Basica: EL proyecto debe de estar en la carpeta src.
+Configuracion Basica: El "working directory" debe de estar en la carpeta src.
+
+Para ejecutar el juego hay que iniciar el main.py, crear un usuario y logearse.
+
 
 Inputs:
 
-Para ejecutar el juego hay que irse a \src\engine\engine.py
-En este caso el main es para iniciar sesion, y luego ejecutaria el juego, pero esta en desarollo.
+
 
 
 #Mover
@@ -23,4 +25,4 @@ x - Enter
 
 
 Con b ejecutas una batalla para probar-lo
-Con s ejecuta el menu selecion, asta ahora solo funcionan 2 menus, el de Pokemon y el exit
+Con s ejecuta el menu selecion, hasta ahora solo funcionan 2 menus, el de Pokemon y el exit

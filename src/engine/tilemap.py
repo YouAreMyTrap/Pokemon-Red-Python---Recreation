@@ -1,26 +1,15 @@
 from settings import *
 import pytmx
 
-class Map:
-    def __init__(self, filename):
-        self.data = []
-        with open(filename, 'rt') as f:
-            for line in f:
-                self.data.append(line.strip())
 
-        self.tilewidth = len(self.data[0])
-        self.tileheight = len(self.data)
-        self.width = self.tilewidth * TILESIZE
-        self.height = self.tileheight * TILESIZE
-
-class TiledMap:
+class TiledMap: # Load the tile map data from a tmx file
     def __init__(self, filename):
         tm = pytmx.load_pygame(filename, pixelalpha=True)
         self.width = (tm.width * tm.tilewidth)
         self.height = (tm.height * tm.tileheight)
         self.tmxdata = tm
 
-    def render(self, surface):
+    def render(self, surface): # From the data of the tmx file renders the layers
         ti = self.tmxdata.get_tile_image_by_gid
         for layer in self.tmxdata.visible_layers:
             if isinstance(layer, pytmx.TiledTileLayer):
@@ -30,24 +19,24 @@ class TiledMap:
                         surface.blit(tile, (x * self.tmxdata.tilewidth,
                                             y * self.tmxdata.tileheight))
 
-    def make_map(self):
+    def make_map(self): # Return the size of the map, and render the layer onto the map
         temp_surface = pg.Surface((self.width, self.height))
         self.render(temp_surface)
         return temp_surface
 
 class Camera:
-    def __init__(self, width, height):
+    def __init__(self, width, height): # Create a "Camera" as big as the window size
         self.camera = pg.Rect(0, 0, width, height)
         self.width = width
         self.height = height
 
-    def apply(self, entity):
+    def apply(self, entity): # Apply the camera to an sprite
         return entity.rect.move(self.camera.topleft)
 
-    def apply_rect(self, rect):
+    def apply_rect(self, rect): # Apply the camera to a rectangle
         return rect.move(self.camera.topleft)
 
-    def update(self, target):
+    def update(self, target): # Updates de camera movement of an target
         x = -target.rect.x + int(WIDTH / 2)
         y = -target.rect.y + int(HEIGHT /2)
 

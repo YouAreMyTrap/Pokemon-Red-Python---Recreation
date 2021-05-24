@@ -20,6 +20,7 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        # Repeat key if holding (Delay, Interval)
         pg.key.set_repeat(500, 100)
         self.load_data()
         self.player =  Player_InGame()
@@ -30,10 +31,12 @@ class Game:
         
 
     def load_data(self):
+        # Load TileMap
         map_folder = os.path.join(parentsource, 'maps')
         self.map = TiledMap(os.path.join(map_folder, 'palet_town.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
+        # Load image for Player
         self.player_img = pg.image.load(os.path.join(s_walk, (P_GENDER + "walk_front_f1" + IMG_EXTENSION)))
 
 
@@ -44,9 +47,11 @@ class Game:
         self.walls = pg.sprite.Group()
         self.sign = pg.sprite.Group()
         self.bush = pg.sprite.Group()
-        self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screenç
+        self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screen
+        # Set the position of the player
         self.player = Player(self, 10, 58)
 
+        # Creating sprites for the colisions
         for tile_object in self.map.tmxdata.objects:
             if tile_object.name == 'wall':
                 Obstacle(self, (tile_object.x / TILESIZE), (tile_object.y / TILESIZE),
@@ -77,13 +82,14 @@ class Game:
         self.all_sprites.update()
         self.camera.update(self.player)
 
-    def draw_grid(self):
+    def draw_grid(self): # Unused, it was used for testing the tilemaps
         for x in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
+        # Display FPS in the window name
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         # self.screen.fill(BGCOLOR)
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -152,4 +158,4 @@ g.show_start_screen()
 while True:
     g.new()
     g.run()
-    g.show_go_screen()
+
