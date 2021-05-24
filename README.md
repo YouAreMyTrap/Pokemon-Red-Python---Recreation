@@ -1,14 +1,12 @@
 # Pokemon-Red-Python---Recreation
-Pokemon 
-
-
+Pokemon
 
 Configuracion Basica: EL proyecto debe de estar en la carpeta src.
 
 Inputs:
 
-Para ejecutar el juego hay que irse a \src\engine\engine.py
-En este caso el main es para iniciar sesion, y luego ejecutaria el juego, pero esta en desarollo.
+Para ejecutar el juego hay que irse a \src\main.py
+En este caso el main es para iniciar sesion, al logearse se ejecuta el juego.
 
 
 #Mover
@@ -22,7 +20,7 @@ Z - Atras
 x - Enter
 
 
-Con b ejecutas una batalla para probar-lo
+Con b ejecutas una batalla para probarlo
 Con s ejecuta el menu selecion, asta ahora solo funcionan 2 menus, el de Pokemon y el exit
 
 
