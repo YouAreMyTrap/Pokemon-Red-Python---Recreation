@@ -9,6 +9,7 @@ from value_player import *
 from Sel_Menu import *
 from battle import *
 from o_pokemon import *
+from enemy import * 
 
 
 ############# LOAD GAME #############
@@ -48,7 +49,7 @@ class Game:
         #             Wall(self, col, row)
         self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screen
     def run(self):
-        # game loop - set self.playing = False to end the game
+        # game loop - set self.playinxxxxxxxxxxg = False to end the game
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000 # Delta Time
@@ -98,11 +99,7 @@ class Game:
                     self.Menu.Menu_Sel = 1
                 
                 if event.key == pg.K_b and not self.Menu.Menu_Loaded:
-                    self.Battle.BattleLoad()
-                    self.Battle.Menu_Sel = {
-                                    "Poss": 1,
-                                    "Menu": 0
-                                    }
+                    self.Battle.BattleLoad(Enemy_InGame())
                 if self.Menu.Menu_Loaded and not self.o_Pokemon.o2pokemon:
                     if event.key == pg.K_UP: self.Menu.MenuUP()
                     if event.key == pg.K_DOWN: self.Menu.MenuDown()

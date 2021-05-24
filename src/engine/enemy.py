@@ -13,5 +13,6 @@ class Enemy_InGame:
             }
         self.StartTExt = "Hey Broder"
         self.EndTExt = ["GG", "Fuck You"]
-        self.Money = money
+        self.WinMoney = money
+        self.LoseMoney = 100
         self.Name = "Enemy"

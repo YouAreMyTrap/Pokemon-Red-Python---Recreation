@@ -212,6 +212,7 @@ class o_pokemon():
                     battle.curpokemon = 2
                     self.o2pokemon = False
                     #self.Back()
+                    battle.Attack(True)
                     print("change")
             if self.Data["text_sel"][self.me if not self.pokemons == 1 else 3 if self.me == 2 else 4][var] == "EXIT":
                 self.Menu_Sel["Sel"] = False

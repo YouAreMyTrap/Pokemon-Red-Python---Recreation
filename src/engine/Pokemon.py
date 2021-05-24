@@ -146,7 +146,7 @@ class Pokemon_Battle(Pokemon):
 
         if self.pk["healt"] <= 0:
             self.pk["healt"] = 0
-            print("You Kill this pokemon")
+            print("You Kill this pokemon" + self.pk["cname"])
 
     def GetName(self):
         return (self.pk["cname"], self.pk["name"])

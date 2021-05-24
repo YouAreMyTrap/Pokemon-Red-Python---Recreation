@@ -16,7 +16,7 @@ class PSettings:
     PLAYER_FRAME = 10
 
 class Player_InGame:
-    def __init__(self, money=0):
+    def __init__(self, money=100):
         self.pokemon = {
             1: Pokemon_Battle("1"),
             2: Pokemon_Battle("2"),
