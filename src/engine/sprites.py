@@ -44,9 +44,11 @@ class Player(pg.sprite.Sprite):
         if not self.collide_with_walls(dx, dy):
             self.x += dx
             self.y += dy
-            print(self.x,self.y)
+            # print(self.x,self.y)
         if self.collide_with_sign(dx, dy):
-            pass #Show message
+            pass
+        if self.walking_bush():
+            pass
 
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:
@@ -56,12 +58,19 @@ class Player(pg.sprite.Sprite):
         return False
 
     def collide_with_sign(self, dx=0, dy=0):
-        for sign in self.game.interact:
+        for sign in self.game.sign:
             if sign.x == self.x + dx and sign.y == self.y + dy:
                 if sign.x == self.x - dx and sign.y == self.y + dy:
                     if sign.y == self.y + dy:
                         print('sign')
                         return True
+        return False
+
+    def walking_bush(self, dx=0, dy=0):
+        for bush in self.game.bush:
+            if bush.x == self.x + dx and bush.y == self.y + dy:
+                print('bush')
+                return True
         return False
 
     def update(self):
@@ -91,8 +100,8 @@ class Obstacle(pg.sprite.Sprite):
         self.rect.y = y
 
 class Sign(pg.sprite.Sprite):
-    def __init__(self, game, x, y, w, h, type):
-        self.groups = game.interact
+    def __init__(self, game, x, y, w, h):
+        self.groups = game.sign
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.rect = pg.Rect(x, y, w, h)
@@ -100,5 +109,16 @@ class Sign(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x
         self.rect.y = y
-        self.type = type
+
+class Bush(pg.sprite.Sprite):
+    def __init__(self, game, x, y, w, h):
+        self.groups = game.bush
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.rect = pg.Rect(x, y, w, h)
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
+
 

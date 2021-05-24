@@ -42,17 +42,22 @@ class Game:
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.interact = pg.sprite.Group()
+        self.sign = pg.sprite.Group()
+        self.bush = pg.sprite.Group()
         self.camera = Camera(self.map.width, self.map.height)  # set "camera" for scrolling screenç
         self.player = Player(self, 10, 58)
+
         for tile_object in self.map.tmxdata.objects:
             if tile_object.name == 'wall':
                 Obstacle(self, (tile_object.x / TILESIZE), (tile_object.y / TILESIZE),
                          tile_object.width, tile_object.height)
+            if tile_object.name == 'bush':
+                Bush(self, (tile_object.x / TILESIZE), (tile_object.y / TILESIZE),
+                         tile_object.width, tile_object.height)
             for signs in signs_tiles:
                 if tile_object.name == signs:
                     Sign(self, (tile_object.x / TILESIZE), (tile_object.y / TILESIZE),
-                         tile_object.width, tile_object.height, "sign")
+                         tile_object.width, tile_object.height)
 
     def run(self):
         # game loop - set self.playinxxxxxxxxxxg = False to end the game
